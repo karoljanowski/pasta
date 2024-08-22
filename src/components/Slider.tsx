@@ -1,89 +1,102 @@
 'use client'
+
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 
 const items = [
-  { id: 0, color: "bg-red-500", description: "Red Description lorem" },
-  { id: 1, color: "bg-green-500", description: "Green Description lorem" },
-  { id: 2, color: "bg-yellow-500", description: "Yellow Description lorem" },
-  { id: 3, color: "bg-blue-500", description: "Blue Description lorem" },
-  { id: 4, color: "bg-purple-500", description: "Purple Description lorem" },
-  { id: 5, color: "bg-pink-500", description: "Pink Description lorem" },
+  { id: 0, icon: '/pizza.png', description: "Carbonara" },
+  { id: 1, icon: '/pizza.png', description: "W KOŃCU" },
+  { id: 2, icon: '/pizza.png', description: "ogarnąłęĶ" },
+  { id: 3, icon: '/pizza.png', description: "Text 4" },
+  { id: 4, icon: '/pizza.png', description: "Text 5" },
+  { id: 5, icon: '/pizza.png', description: "Text 6" },
 ];
 
+const radius = 110
+const textRadius = 150
+const svgSize = textRadius * 2 + 150
+
 const Slider = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [rotationAngle, setRotationAngle] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0)
+    const [rotationAngle, setRotationAngle] = useState(0)
 
-  const numItems = items.length;
-  const anglePerItem = 360 / numItems;
+    const numItems = items.length
+    const anglePerItem = 360 / numItems
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    const handleClick = (index: number) => {
+        const angleDifference = (index - activeIndex) * anglePerItem
+        setRotationAngle(rotationAngle - angleDifference)
+        setActiveIndex(index)
+    }
 
-  const handleClick = (index: number) => {
-    const angleDifference = (index - activeIndex) * anglePerItem;
-    setRotationAngle(rotationAngle - angleDifference);
-    setActiveIndex(index);
-  };
+    const isVisible = (index: number) => {
+        const prevIndex = (activeIndex - 1 + numItems) % numItems
+        const nextIndex = (activeIndex + 1) % numItems
+        return index === activeIndex || index === prevIndex || index === nextIndex
+    }
 
-  // Avoid rendering on the server-side
-  if (!isMounted) {
-    return null;
-  }
+    return (
+        <div className="mt-16 pt-16 text-white flex flex-col items-center bg-red-700">
 
-  return (
-    <div className="mt-32 overflow-hidden">
-      <p className="text-9xl text-center uppercase">our best products</p>
-      <div className="flex justify-between items-center mb-32 -mt-8 h-screen">
-        <div className="flex-1 relative h-3/4 text-white">
-          <div className="absolute z-20 w-full left-0 px-24 h-full justify-center flex flex-col bg-red-700">
-            <p className="text-5xl font-bold">{items[activeIndex].description}</p>
-            <p className="text-2xl">Lorem ipsum dolor sit amet, consectetur adipisicing elit...</p>
-          </div>
-          <div className="absolute w-1/2 -right-1/2 rounded-r-full bg-red-700 h-full"></div>
-        </div>
+            <p className="text-5xl md:text-9xl text-stroke-reverse text-center uppercase mb-10">
+                Our Best Products
+            </p>
 
-        <div className="relative h-full flex flex-1 justify-center items-center">
-          <motion.div
-            className="w-full h-full absolute left-12"
-            style={{
-              transform: `rotate(${rotationAngle + 180}deg)`,
-            }}
-            animate={{ rotate: rotationAngle + 180 }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            {items.map((item, index) => {
-              const angle = index * anglePerItem;
-              const x = 230 * Math.cos((angle * Math.PI) / 180);
-              const y = 230 * Math.sin((angle * Math.PI) / 180);
-
-              return (
-                <motion.div
-                  key={item.id}
-                  className="absolute w-32 h-32 rounded-full flex justify-center items-center text-white text-2xl cursor-pointer"
-                  initial={{ scale: 1 }}
-                  animate={{ scale: item.id === activeIndex ? 2.2 : 1 }}
-                  style={{
-                    top: `calc(50% + ${y}px)`,
-                    left: `calc(50% + ${x}px)`,
-                    translateX: '-50%',
-                    translateY: '-50%',
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  onClick={() => handleClick(index)}
+            <div className="relative overflow-hidden w-full flex justify-center" style={{height: svgSize / 2}}>
+                <motion.svg
+                width={svgSize}
+                height={svgSize}
+                viewBox={`0 0 ${svgSize} ${svgSize}`}
+                animate={{ rotate: rotationAngle - 90 }}
+                transition={{ duration: 0.5, ease: "easeInOut", type: "spring", damping: 10 }}
                 >
-                  <Image src={'/pizza.png'} width={300} height={300} alt="pizza" />
-                </motion.div>
-              );
-            })}
-          </motion.div>
+                {items.map((item, index) => {
+                    const angle = index * anglePerItem * (Math.PI / 180)
+                    const x = svgSize / 2 + radius * Math.cos(angle)
+                    const y = svgSize / 2 + radius * Math.sin(angle)
+
+                    const textX = svgSize / 2 + textRadius * Math.cos(angle)
+                    const textY = svgSize / 2 + textRadius * Math.sin(angle)
+
+                    const textRotation = (index * anglePerItem) + 90
+
+                    if (!isVisible(index)) return null
+
+                    return (
+                    <motion.g
+                        key={item.id}
+                        onClick={() => handleClick(index)}
+                        className="cursor-pointer"
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                        <motion.text
+                            x={textX}
+                            y={textY - (item.id === activeIndex ? 30 : 0)}
+                            textAnchor="middle"
+                            initial={{fontSize: 30}}
+                            animate={{fontSize: item.id === activeIndex ? 50 : 30}}
+                            fill="white"
+                            transform={`rotate(${textRotation}, ${textX}, ${textY})`}
+                            style={{ pointerEvents: "none" }}
+                        >
+                        {item.description}
+                        </motion.text>
+
+                        <motion.image
+                        initial={{ scale: 1 }}
+                        animate={{ scale: item.id === activeIndex ? 1.8 : 1 }}
+                        href={item.icon}
+                        width={40}
+                        height={40}
+                        x={x - 20}
+                        y={y - 20}
+                        />
+                    </motion.g>
+                    );
+                })}
+                </motion.svg>
+            </div>
         </div>
-      </div>
-    </div>
   );
 };
 

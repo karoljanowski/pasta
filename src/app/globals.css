@@ -10,3 +10,12 @@
         -3px -3px 0 #b91c1c,
         3px -3px 0 #b91c1c;
 }
+
+.text-stroke-reverse {
+    color: #b91c1c;
+    text-shadow:
+        3px 3px 0 #fefce8,
+        -3px 3px 0 #fefce8,
+        -3px -3px 0 #fefce8,
+        3px -3px 0 #fefce8;
+}

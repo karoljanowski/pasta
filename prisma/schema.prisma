@@ -7,8 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-    id    Int     @id @default(autoincrement())
-    email String
-    password String
+model Customer {
+  id      Int     @id @default(autoincrement())
+  name    String
+  surname String
+  city    String
+  street  String
+  orders  Order[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  status     OrderStatus
+  time       DateTime
+  total      Int
+}
+
+enum OrderStatus {
+  Processing
+  Accepted
+  Preparing
+  Shipped
+  Completed
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Teko } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 
 const teko = Teko({ subsets: ["latin"] });
 
@@ -17,8 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${teko.className} bg-yellow-50`}>
-          <Header/>
+      <body className={`${teko.className}`}>
           <main>
             {children}
           </main>
