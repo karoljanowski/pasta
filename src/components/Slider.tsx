@@ -1,103 +1,169 @@
 'use client'
+import { motion, useMotionValue, animate, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { Product } from "@prisma/client";
+import HiddenText from "./HiddenText";
+import { useCartStore } from "@/lib/store";
+import { CartItem } from "@/lib/types";
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+const getResponsiveValues = (width: number) => {
+    switch (true) {
+        case width >= 1600:
+            return { px: 1600, radius: 250, imageSize: 230, space: 200 };
+        case width >= 1200:
+            return { px: 1200, radius: 220, imageSize: 180, space: 140 };
+        case width >= 1024:
+            return { px: 1024, radius: 170, imageSize: 140, space: 85 };
+        case width >= 768:
+            return { px: 768, radius: 150, imageSize: 120, space: 60 };
+        case width >= 500:
+            return { px: 500, radius: 130, imageSize: 100, space: 30 };
+        default:
+            return { px: 500, radius: 130, imageSize: 100, space: 30 };
+    }
+}
 
-const items = [
-  { id: 0, icon: '/pizza.png', description: "Carbonara" },
-  { id: 1, icon: '/pizza.png', description: "W KOŃCU" },
-  { id: 2, icon: '/pizza.png', description: "ogarnąłęĶ" },
-  { id: 3, icon: '/pizza.png', description: "Text 4" },
-  { id: 4, icon: '/pizza.png', description: "Text 5" },
-  { id: 5, icon: '/pizza.png', description: "Text 6" },
-];
+const Slider = ({ menu }: { menu: Product[] }) => {
+    const { addItem } = useCartStore()
+    const [dimensions, setDimensions] = useState({ radius: 130, imageSize: 100, space: 30 });
+    const activeName = useMotionValue(menu[0].name);
+    const activeDescription = useMotionValue(menu[0].description);
+    const controls = useAnimation()
+    const ref = useRef(null)
+    const inView = useInView(ref, { once: true, margin: '-50px', amount: 0.5 })
 
-const radius = 110
-const textRadius = 150
-const svgSize = textRadius * 2 + 150
+    const rotationAngle = useMotionValue(0);
+    const activeIndex = useMotionValue(0);
+    const isAnimating = useMotionValue(false);
 
-const Slider = () => {
-    const [activeIndex, setActiveIndex] = useState(0)
-    const [rotationAngle, setRotationAngle] = useState(0)
+    const scales = menu.map((_, index) => useMotionValue(index === 0 ? 1.3 : 1));
 
-    const numItems = items.length
-    const anglePerItem = 360 / numItems
+    const imageCount = menu.length;
+    const angleStep = (2 * Math.PI) / imageCount;
 
-    const handleClick = (index: number) => {
-        const angleDifference = (index - activeIndex) * anglePerItem
-        setRotationAngle(rotationAngle - angleDifference)
-        setActiveIndex(index)
+    const positions = menu.map((_, index) => {
+        const angle = index * angleStep - (Math.PI / 2);
+        const x = dimensions.radius * Math.cos(angle);
+        const y = dimensions.radius * Math.sin(angle);
+        return { x, y, angle };
+    });
+
+    const svgSize = dimensions.radius * 2 + dimensions.imageSize + dimensions.space;
+    const viewBox = `-${svgSize / 2} -${svgSize / 2} ${svgSize} ${svgSize}`;
+
+    const handleAnimation = (index: number) => {
+        if (isAnimating.get() || index === activeIndex.get()) return;
+
+        isAnimating.set(true);
+
+        const anglePerItem = 360 / imageCount;
+        const angleDifference = (index - activeIndex.get()) * anglePerItem;
+
+        animate(rotationAngle, rotationAngle.get() - angleDifference, {
+            duration: 0.3,
+            ease: "easeInOut",
+            type: "spring",
+            damping: 10,
+            onComplete: () => isAnimating.set(false),
+        });
+
+        scales.forEach((scale, i) => {
+            animate(scale, i === index ? 1.3 : 1, {
+                duration: 0.3,
+                ease: "easeInOut",
+            });
+        });
+
+        activeIndex.set(index);
+        const sequence = async () => {
+            await controls.start({ opacity: 0, transition: { duration: 0.3 } });
+            activeName.set(menu[index].name)
+            activeDescription.set(menu[index].description)
+            await controls.start({ opacity: 1, transition: { duration: 0.3 } });
+        };
+        sequence();
+    };
+
+    const handleAddToCart = () => {
+        const currentProduct = menu[activeIndex.get()]
+
+        const cartItem: CartItem = {
+            productId: currentProduct.id,
+            productName: currentProduct.name,
+            productPrice: currentProduct.price,
+            quantity: 1
+        }
+
+        //add alert that product addded
+
+        addItem(cartItem)
     }
 
-    const isVisible = (index: number) => {
-        const prevIndex = (activeIndex - 1 + numItems) % numItems
-        const nextIndex = (activeIndex + 1) % numItems
-        return index === activeIndex || index === prevIndex || index === nextIndex
-    }
+    useEffect(() => {
+        const handleResize = () => {
+            if (typeof window !== 'undefined') {
+                setDimensions(getResponsiveValues(window.innerWidth));
+            }
+        };
+
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    useEffect(() => {
+        if (inView) {
+            handleAnimation(activeIndex.get() + 1)
+        }
+    }, [inView])
 
     return (
         <div className="mt-16 pt-16 text-white flex flex-col items-center bg-red-700">
-
-            <p className="text-5xl md:text-9xl text-stroke-reverse text-center uppercase mb-10">
-                Our Best Products
-            </p>
-
-            <div className="relative overflow-hidden w-full flex justify-center" style={{height: svgSize / 2}}>
-                <motion.svg
-                width={svgSize}
-                height={svgSize}
-                viewBox={`0 0 ${svgSize} ${svgSize}`}
-                animate={{ rotate: rotationAngle - 90 }}
-                transition={{ duration: 0.5, ease: "easeInOut", type: "spring", damping: 10 }}
+            <HiddenText text="Our best products" style="text-5xl md:text-7xl xl:text-9xl text-stroke-reverse text-center uppercase" />
+            <motion.div
+                className="max-w-full"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.2 }}
+                viewport={{ margin: '-200px', once: true }}
+            >
+                <motion.div
+                    animate={controls}
+                    initial={{ opacity: 1 }}
+                    className="text-center my-8 md:my-4 xl:my-2 w-full flex flex-col items-center"
                 >
-                {items.map((item, index) => {
-                    const angle = index * anglePerItem * (Math.PI / 180)
-                    const x = svgSize / 2 + radius * Math.cos(angle)
-                    const y = svgSize / 2 + radius * Math.sin(angle)
+                    <motion.span className="text-4xl md:text-5xl xl:text-6xl">
+                        {activeName}
+                    </motion.span>
+                    <motion.span className="text-xl md:text-2xl xl:text-3xl max-w-[80%] md:max-w-[60%] xl:max-w-[50%] font-thin leading-6">
+                        {activeDescription}
+                    </motion.span>
+                    <button onClick={handleAddToCart} className="bg-yellow-50 transition-all uppercase mt-4 text-black px-10 py-2 text-xl border-black border rounded-lg shadow-md shadow-gray-800 hover:bg-yellow-200">Add to cart</button>
+                </motion.div>
 
-                    const textX = svgSize / 2 + textRadius * Math.cos(angle)
-                    const textY = svgSize / 2 + textRadius * Math.sin(angle)
-
-                    const textRotation = (index * anglePerItem) + 90
-
-                    if (!isVisible(index)) return null
-
-                    return (
-                    <motion.g
-                        key={item.id}
-                        onClick={() => handleClick(index)}
-                        className="cursor-pointer"
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                <div ref={ref} className="w-full flex justify-center items-start overflow-hidden" style={{ height: svgSize / 2 }}>
+                    <motion.svg
+                        width={svgSize} height={svgSize} viewBox={viewBox}
+                        style={{ rotate: rotationAngle }}
                     >
-                        <motion.text
-                            x={textX}
-                            y={textY - (item.id === activeIndex ? 30 : 0)}
-                            textAnchor="middle"
-                            initial={{fontSize: 30}}
-                            animate={{fontSize: item.id === activeIndex ? 50 : 30}}
-                            fill="white"
-                            transform={`rotate(${textRotation}, ${textX}, ${textY})`}
-                            style={{ pointerEvents: "none" }}
-                        >
-                        {item.description}
-                        </motion.text>
-
-                        <motion.image
-                        initial={{ scale: 1 }}
-                        animate={{ scale: item.id === activeIndex ? 1.8 : 1 }}
-                        href={item.icon}
-                        width={40}
-                        height={40}
-                        x={x - 20}
-                        y={y - 20}
-                        />
-                    </motion.g>
-                    );
-                })}
-                </motion.svg>
-            </div>
+                        {positions.map((pos, index) => (
+                            <g className="cursor-pointer" key={index} onClick={() => handleAnimation(index)}>
+                                <motion.image
+                                    href={menu[index].image}
+                                    x={pos.x - dimensions.imageSize / 2}
+                                    y={pos.y - dimensions.imageSize / 2}
+                                    width={dimensions.imageSize}
+                                    height={dimensions.imageSize}
+                                    style={{ scale: scales[index] }}
+                                />
+                            </g>
+                        ))}
+                    </motion.svg>
+                </div>
+            </motion.div>
         </div>
-  );
+    );
 };
 
 export default Slider;

@@ -16,11 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${teko.className}`}>
-          <main>
-            {children}
-          </main>
-        </body>
+      <body className={`${teko.className} scroll-smooth`}>
+        <main>
+          {children}
+        </main>
+      </body>
     </html>
   );
 }

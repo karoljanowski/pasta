@@ -9,15 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/client": "^5.18.0",
     "@prisma/extension-pulse": "^1.2.0",
     "framer-motion": "^11.3.21",
+    "install": "^0.13.0",
     "next": "14.2.5",
+    "npm": "^10.8.3",
     "prisma": "^5.18.0",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@types/node": "^20",
