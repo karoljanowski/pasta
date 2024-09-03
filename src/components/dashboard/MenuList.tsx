@@ -6,14 +6,13 @@ interface MenuProps {
 }
 
 const MenuList = ({ menu }: MenuProps) => {
-    console.log(menu)
     return (
         <div className="mt-6">
             <div className="grid grid-cols-4 gap-4">
                 {menu.map(item => {
                     return (
                         <div key={item.id} className="bg-gray-100 rounded-lg p-4">
-                            <Image src={item.image} alt={item.name} />
+                            <Image src={item.image} alt={item.name} width={50} height={50} />
                             <div>{item.name}</div>
                             <div>{item.description}</div>
                             <div>{item.price}</div>
