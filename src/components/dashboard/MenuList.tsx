@@ -13,7 +13,7 @@ const MenuList = ({ menu }: MenuProps) => {
                 {menu.map(item => {
                     return (
                         <div key={item.id} className="bg-gray-100 rounded-lg p-4">
-                            <Image src={item.images[0]} alt={item.name} />
+                            <Image src={item.image} alt={item.name} />
                             <div>{item.name}</div>
                             <div>{item.description}</div>
                             <div>{item.price}</div>

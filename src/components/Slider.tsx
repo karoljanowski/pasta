@@ -36,7 +36,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
     const activeIndex = useMotionValue(0);
     const isAnimating = useMotionValue(false);
 
-    const scales = menu.map((_, index) => useMotionValue(index === 0 ? 1.3 : 1));
+    // const scales = menu.map((_, index) => useMotionValue(index === 0 ? 1.3 : 1));
 
     const imageCount = menu.length;
     const angleStep = (2 * Math.PI) / imageCount;
@@ -67,12 +67,12 @@ const Slider = ({ menu }: { menu: Product[] }) => {
             onComplete: () => isAnimating.set(false),
         });
 
-        scales.forEach((scale, i) => {
-            animate(scale, i === index ? 1.3 : 1, {
-                duration: 0.3,
-                ease: "easeInOut",
-            });
-        });
+        // scales.forEach((scale, i) => {
+        //     animate(scale, i === index ? 1.3 : 1, {
+        //         duration: 0.3,
+        //         ease: "easeInOut",
+        //     });
+        // });
 
         activeIndex.set(index);
         const sequence = async () => {
@@ -116,7 +116,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
         if (inView) {
             handleAnimation(activeIndex.get() + 1)
         }
-    }, [inView])
+    }, [inView, activeIndex])
 
     return (
         <div className="mt-16 pt-16 text-white flex flex-col items-center bg-red-700">
@@ -155,7 +155,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
                                     y={pos.y - dimensions.imageSize / 2}
                                     width={dimensions.imageSize}
                                     height={dimensions.imageSize}
-                                    style={{ scale: scales[index] }}
+                                // style={{ scale: scales[index] }}
                                 />
                             </g>
                         ))}

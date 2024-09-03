@@ -13,7 +13,7 @@ const HiddenText = ({ style, text }: { style: string, text: string }) => {
         } else {
             controls.start({ y: '100%' })
         }
-    }, [inView])
+    }, [inView, controls])
 
     return (
         <div ref={ref} className="h-max overflow-hidden py-px">

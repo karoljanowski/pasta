@@ -7,7 +7,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         <div>
             <div className="text-6xl">masz synek zamowienie numer {order?.id}</div>
             <div className="text-6xl flex gap-2">zamowiles {order?.orderItems.map(item => {
-                return <div>{item.quantity} x {item.product.name}</div>
+                return <div key={item.id}>{item.quantity} x {item.product.name}</div>
             })}</div>
         </div>
     );
