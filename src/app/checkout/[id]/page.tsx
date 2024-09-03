@@ -2,7 +2,7 @@ import { getOrder } from "@/lib/actions";
 
 const Page = async ({ params }: { params: { id: string } }) => {
     const order = await getOrder(Number(params.id))
-
+    if (!order) return <div>error</div>
     return (
         <div>
             <div className="text-6xl">masz synek zamowienie numer {order?.id}</div>
