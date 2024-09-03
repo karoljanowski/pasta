@@ -96,8 +96,8 @@ export const handleChangeStatus = async ({status, id} : OrderStatusProps) => {
     })
 }
 
-export const getOrders = () => {
-    return prisma.order.findMany({
+export const getOrders = async () => {
+    return await prisma.order.findMany({
         include: {
             orderItems: {
                 include: {
@@ -107,8 +107,8 @@ export const getOrders = () => {
         }
     })
   };
-export const getOrder = (id: number) => {
-    return prisma.order.findFirst({
+export const getOrder = async (id: number) => {
+    return await prisma.order.findFirst({
         include: {
             orderItems: {
                 include: {
@@ -122,6 +122,6 @@ export const getOrder = (id: number) => {
     })
   };
 
-export const getMenu = () => {
-    return prisma.product.findMany()
+export const getMenu = async () => {
+    return await prisma.product.findMany()
   };
