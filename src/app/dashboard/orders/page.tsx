@@ -2,7 +2,8 @@ import OrderList from "@/components/dashboard/OrderList";
 import { getOrders } from "@/lib/actions";
 export const dynamic = 'force-dynamic'
 const Page = async () => {
-    // const orders = await getOrders()
+    const orders = await getOrders()
+    console.log(orders)
 
     return (
         <>
