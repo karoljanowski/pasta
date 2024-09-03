@@ -1,5 +1,5 @@
 'use server'
-import { pusherServer } from "./pusher"
+// import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
 import { Order } from "@prisma/client"
 import { CartItem, CheckoutFormState, OrderStatusProps } from "./types"  
@@ -76,7 +76,7 @@ export const handleNewOrder = async (state: CheckoutFormState, formData: FormDat
             }
         });
 
-        await pusherServer.trigger('channel', 'newOrder', newOrder);
+        // await pusherServer.trigger('channel', 'newOrder', newOrder);
 
         return { success: true, orderId: newOrder.id };
     } catch (error) {
