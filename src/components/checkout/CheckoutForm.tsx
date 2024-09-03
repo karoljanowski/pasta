@@ -1,7 +1,20 @@
-const CheckoutForm = () => {
+import { useFormState } from "react-dom";
+import { handleNewOrder } from "@/lib/actions";
+
+import { CartItem, CheckoutFormState } from "@/lib/types";
+import CheckoutFormButton from "./CheckoutFormButton";
+import CheckoutFormNotification from "./CheckoutFormNotification";
+
+const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: number }) => {
+    const initialState: CheckoutFormState = { errors: {}, success: false }
+    const [state, action] = useFormState(handleNewOrder, initialState)
+
     return (
         <div>
-            <form action="" className="flex flex-col gap-8 mt-10">
+            <CheckoutFormNotification state={state} />
+            <form action={action} className="flex flex-col gap-6 mt-6">
+                <input type="hidden" name="cartItems" value={JSON.stringify(items)} />
+                <input type="hidden" name="totalPrice" value={JSON.stringify(totalPrice)} />
                 <div className="flex flex-col">
                     <label htmlFor="customerFullName" className="text-xl uppercase">
                         Full Name
@@ -11,8 +24,9 @@ const CheckoutForm = () => {
                         id="customerFullName"
                         name="customerFullName"
                         placeholder="Enter your full name"
-                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 placeholder:text-gray-300"
+                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 transition-all placeholder:text-gray-300"
                     />
+                    <span className="text-black px-3 w-max rounded-md bg-yellow-300 mt-2">{state.errors?.customerFullName && state.errors.customerFullName[0]}</span>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="customerCity" className="text-xl uppercase">
@@ -23,8 +37,9 @@ const CheckoutForm = () => {
                         id="customerCity"
                         name="customerCity"
                         placeholder="Enter your city"
-                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 placeholder:text-gray-300"
+                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 transition-all placeholder:text-gray-300"
                     />
+                    <span className="text-black px-3 w-max rounded-md bg-yellow-300 mt-2">{state.errors?.customerCity && state.errors.customerCity[0]}</span>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="customerStreet" className="text-xl uppercase">
@@ -35,8 +50,9 @@ const CheckoutForm = () => {
                         id="customerStreet"
                         name="customerStreet"
                         placeholder="Enter your street"
-                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 placeholder:text-gray-300"
+                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 transition-all placeholder:text-gray-300"
                     />
+                    <span className="text-black px-3 w-max rounded-md bg-yellow-300 mt-2">{state.errors?.customerStreet && state.errors.customerStreet[0]}</span>
                 </div>
                 <div className="flex flex-col">
                     <label htmlFor="paymentType" className="text-xl uppercase">
@@ -45,22 +61,19 @@ const CheckoutForm = () => {
                     <select
                         id="paymentType"
                         name="paymentType"
-                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 placeholder:text-gray-300"
+                        className="bg-transparent border-b border-white outline-none py-2 text-lg focus:border-red-400 transition-all placeholder:text-gray-300"
                     >
-                        <option value="card">Credit Card</option>
-                        <option value="cash">Cash</option>
+                        <option value="Card">Credit Card</option>
+                        <option value="Cash">Cash</option>
                     </select>
+                    <span className="text-black px-3 w-max rounded-md bg-yellow-300 mt-2">{state.errors?.paymentType && state.errors.paymentType[0]}</span>
                 </div>
 
-                <button
-                    type="submit"
-                    className="hover:bg-yellow-200 transition-all bg-white text-black px-10 py-2 text-2xl border-black border rounded-lg shadow-md shadow-gray-800"
-                >
-                    Order with obligation to pay
-                </button>
+                <CheckoutFormButton />
             </form>
         </div>
     );
 }
 
 export default CheckoutForm;
+

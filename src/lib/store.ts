@@ -3,7 +3,7 @@ import { CartItem, CartStore } from './types'
 
 const localStorageKey = 'cart_items'
 
-export const useCartStore = create<CartStore>((set, get) => ({
+export const useCartStore = create<CartStore>((set) => ({
     items: [],
     totalQuantity: 0,
     totalPrice: 0,

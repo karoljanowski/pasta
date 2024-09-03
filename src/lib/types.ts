@@ -15,6 +15,19 @@ export type OrderWithProducts = Prisma.OrderGetPayload<{
     }
 }>
 
+export type CheckoutFormState = {
+    errors?: {
+        cartItems?: string[] | undefined;
+        totalPrice?: string[] | undefined;
+        customerFullName?: string[] | undefined;
+        customerCity?: string[] | undefined;
+        customerStreet?: string[] | undefined;
+        paymentType?: string[] | undefined;
+      };
+    success: boolean,
+    orderId?: number 
+}
+
 export type CartItem = {
     productId: number
     productName: string
