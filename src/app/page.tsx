@@ -10,8 +10,8 @@ import CartModal from "@/components/cart/CartModal";
 import Footer from "@/components/Footer";
 
 
+export const dynamic = 'force-dynamic'
 export default async function Home() {
-
   const menu = await getMenu()
 
   return (
