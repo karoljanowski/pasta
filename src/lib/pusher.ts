@@ -1,6 +1,6 @@
 
-import PusherServer from 'pusher'
-import PusherClient from 'pusher-js'
+// import PusherServer from 'pusher'
+// import PusherClient from 'pusher-js'
 
 // export const pusherServer = new PusherServer({
 //     appId: process.env.NEXT_PUSHER_APP_ID as string,
