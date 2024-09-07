@@ -1,5 +1,5 @@
 'use client'
-// import { pusherClient } from "@/lib/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { useEffect, useRef, useState } from "react";
 import SelectStatus from "./SelectStatus";
 import { OrderWithProducts } from "@/lib/types";
