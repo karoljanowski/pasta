@@ -12,10 +12,10 @@ const OrderList = ({ orders }: { orders: OrderWithProducts[] }) => {
         if (!initialized.current) {
             initialized.current = true
 
-            // const channel = pusherClient.subscribe('channel');
-            // channel.bind('newOrder', (item: OrderWithProducts) => {
-            //     setOrdersState(prev => [...prev, item])
-            // });
+            const channel = pusherClient.subscribe('channel');
+            channel.bind('newOrder', (item: OrderWithProducts) => {
+                setOrdersState(prev => [...prev, item])
+            });
         }
     }, [])
 

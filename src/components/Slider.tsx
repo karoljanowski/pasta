@@ -30,7 +30,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
     const activeDescription = useMotionValue(menu[0].description);
     const controls = useAnimation()
     const ref = useRef(null)
-    const inView = useInView(ref, { once: true, margin: '-50px', amount: 0.5 })
+    const inView = useInView(ref, { once: true, margin: '-200px', amount: 0.2 })
 
     const rotationAngle = useMotionValue(0);
     const activeIndex = useMotionValue(0);
