@@ -1,9 +1,10 @@
 'use server'
-// import { pusherServer } from "./pusher"
+import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
 import { Order } from "@prisma/client"
 import { CartItem, CheckoutFormState, OrderStatusProps } from "./types"  
 import { z, ZodError } from 'zod';
+import { revalidatePath } from "next/cache"
 
 const CartItemSchema = z.object({
     productId: z.number(),
@@ -76,7 +77,8 @@ export const handleNewOrder = async (state: CheckoutFormState, formData: FormDat
             }
         });
 
-        // await pusherServer.trigger('channel', 'newOrder', newOrder);
+        await pusherServer.trigger('channel', 'newOrder', newOrder);
+        revalidatePath('/dashboard/orders')
 
         return { success: true, orderId: newOrder.id };
     } catch (error) {
