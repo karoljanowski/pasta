@@ -1,5 +1,5 @@
 import { getMenu } from "@/lib/actions";
-import MenuList from "@/components/dashboard/MenuList";
+import MenuList from "@/components/dashboard/Menu/MenuList";
 
 const Page = async () => {
     const menu = await getMenu()

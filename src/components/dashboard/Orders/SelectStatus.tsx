@@ -2,16 +2,16 @@
 import { handleChangeStatus } from "@/lib/actions";
 import { OrderStatusProps } from "@/lib/types";
 import { OrderStatus } from "@prisma/client";
+import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "../../ui/select";
 import { useState } from "react";
 
 const SelectStatus = ({ status, id }: OrderStatusProps) => {
     const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(status);
     const statusArray = Object.values(OrderStatus);
 
-    const handleChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newStatus = event.target.value as OrderStatus;
+    const handleChange = async (newStatus: OrderStatus) => {
         setSelectedStatus(newStatus);
-        await handleChangeStatus({ status: newStatus, id: id });
+        await handleChangeStatus({ status: newStatus, id });
     };
 
     const getStatusColor = (status: OrderStatus) => {
@@ -32,19 +32,21 @@ const SelectStatus = ({ status, id }: OrderStatusProps) => {
     };
 
     return (
-        <div>
-            <select
-                className={`rounded-lg px-6 py-2 ${getStatusColor(selectedStatus)}`}
-                value={selectedStatus}
-                onChange={handleChange}
-            >
+        <Select
+            value={selectedStatus}
+            onValueChange={(value: OrderStatus) => handleChange(value)}
+        >
+            <SelectTrigger className={`w-full ${getStatusColor(selectedStatus)}`}>
+                <SelectValue placeholder={selectedStatus} />
+            </SelectTrigger>
+            <SelectContent>
                 {statusArray.map((statusValue) => (
-                    <option key={statusValue} value={statusValue}>
+                    <SelectItem key={statusValue} value={statusValue}>
                         {statusValue}
-                    </option>
+                    </SelectItem>
                 ))}
-            </select>
-        </div>
+            </SelectContent>
+        </Select>
     );
 };
 

@@ -1,4 +1,4 @@
-import OrderList from "@/components/dashboard/OrderList";
+import OrderList from "@/components/dashboard/Orders/OrderList";
 import { getOrders } from "@/lib/actions";
 const Page = async () => {
     const orders = await getOrders()

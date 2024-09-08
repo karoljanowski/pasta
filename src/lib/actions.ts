@@ -96,6 +96,7 @@ export const handleChangeStatus = async ({status, id} : OrderStatusProps) => {
             status: status
         }
     })
+    revalidatePath('/dashboard/orders')
 }
 
 export const getOrders = async () => {
@@ -125,5 +126,5 @@ export const getOrder = async (id: number) => {
   };
 
 export const getMenu = async () => {
-    return await prisma.product.findMany()
-  };
+    return await prisma.product.findMany();
+};
