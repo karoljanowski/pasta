@@ -57,8 +57,8 @@ const MenuList = ({ menu }: MenuProps) => {
                                             <div className="font-bold">Ingredients</div>
                                         </div>
                                         <div className="flex flex-col mt-1 ml-6">
-                                            {item.ingredients.map(ingredient => {
-                                                return <div className="flex items-center gap-2">
+                                            {item.ingredients.map((ingredient, i) => {
+                                                return <div key={i} className="flex items-center gap-2">
                                                     <FontAwesomeIcon icon={faCircle} className="w-1 h-1 text-black" />
                                                     {ingredient}
                                                 </div>
