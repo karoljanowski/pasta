@@ -126,5 +126,33 @@ export const getOrder = async (id: number) => {
   };
 
 export const getMenu = async () => {
-    return await prisma.product.findMany();
+    return await prisma.product.findMany({
+        orderBy: {
+            name: 'asc'
+        }
+    });
 };
+
+export const hideProduct = async (id: number) => {
+    await prisma.product.update({
+        where: {
+            id: id
+        },
+        data: {
+            active: false
+        }
+    })
+    revalidatePath('/dashboard/menu')
+}
+
+export const showProduct = async (id: number) => {
+    await prisma.product.update({
+        where: {
+            id: id
+        },
+        data: {
+            active: true
+        }
+    })
+    revalidatePath('/dashboard/menu')
+}

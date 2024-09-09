@@ -4,6 +4,8 @@ import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from ".
 import { useEffect, useRef, useState } from "react";
 import SelectStatus from "./SelectStatus";
 import { OrderWithProducts } from "@/lib/types";
+import { DataTable } from "./DataTable";
+import columns from "./Columns";
 
 const OrderList = ({ orders }: { orders: OrderWithProducts[] }) => {
     const [ordersState, setOrdersState] = useState<OrderWithProducts[]>(orders)
@@ -21,39 +23,9 @@ const OrderList = ({ orders }: { orders: OrderWithProducts[] }) => {
     }, [])
 
     return (
-        <Table className="mt-3">
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Order ID</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Products</TableHead>
-                    <TableHead>Time</TableHead>
-                    <TableHead>Total</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {ordersState.map((order) => (
-                    <TableRow className="even:bg-gray-50" key={order.id}>
-                        <TableCell className="pl-6" width={80}>{order.id}</TableCell>
-                        <TableCell width={180}>
-                            <SelectStatus status={order.status} id={order.id} />
-                        </TableCell>
-                        <TableCell className="whitespace-pre-line">
-                            {order.customerFullname}
-                            <br />
-                            {order.customerCity}, {order.customerStreet}
-                        </TableCell>
-                        <TableCell>
-                            {order.orderItems.map(item =>
-                                <div key={item.id}>{`${item.quantity} x ${item.product.name}`}<br /></div>
-                            )}</TableCell>
-                        <TableCell className="whitespace-pre-line">{new Date(order.time).toLocaleDateString()}</TableCell>
-                        <TableCell>{order.total}$</TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+        <>
+            <DataTable columns={columns} data={ordersState} />
+        </>
     );
 };
 
