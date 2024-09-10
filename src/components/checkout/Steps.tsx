@@ -4,8 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import CartItems from "../cart/CartItems";
 import CheckoutForm from "./CheckoutForm";
 import { useCartStore } from "@/lib/store";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
+import { ChevronLeft } from "lucide-react";
 
 const CheckoutSteps = () => {
     const { items, totalPrice, totalQuantity, initializeCart } = useCartStore()
@@ -73,7 +72,7 @@ const CheckoutSteps = () => {
                             <button
                                 onClick={handlePreviousStep}
                                 className="flex items-center mb-6 bg-yellow-50 text-red-700 rounded-lg px-4 py-1 hover:bg-red-700 hover:text-white border border-black shadow shadow-gray-800">
-                                <FontAwesomeIcon icon={faChevronLeft} className="w-3 h-3 mb-px" />
+                                <ChevronLeft className="w-3 h-3 mb-px" />
                                 Back to Cart
                             </button>
                         </div>

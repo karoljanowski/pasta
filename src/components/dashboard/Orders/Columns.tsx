@@ -9,10 +9,10 @@ import SelectStatus from "./SelectStatus";
 const columns: ColumnDef<OrderWithProducts>[] = [
     {
         accessorKey: 'id',
-        maxSize: 100,
+        size: 100,
         header: ({ column }) => {
             return (
-                <Button variant="ghost"
+                <Button variant="ghost" className="px-1"
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 
                 >
@@ -23,6 +23,9 @@ const columns: ColumnDef<OrderWithProducts>[] = [
         },
         cell: ({ row }) => {
             return <div className="pl-4">{row.original.id}</div>
+        },
+        filterFn: (rows, id, filterValue) => {
+            return rows.original.id == filterValue
         }
     },
     {
@@ -30,10 +33,14 @@ const columns: ColumnDef<OrderWithProducts>[] = [
         header: 'Status',
         cell: ({ row }) => {
             return <SelectStatus status={row.original.status} id={row.original.id} />
+        },
+        filterFn: (rows, id, filterValue) => {
+            return rows.original.status === filterValue
         }
     },
     {
         accessorKey: 'customerFullname',
+        size: 200,
         header: 'Customer',
         cell: ({ row }) => {
             return <>{row.original.customerFullname}<br />
@@ -44,6 +51,7 @@ const columns: ColumnDef<OrderWithProducts>[] = [
     {
         accessorKey: 'orderItems',
         header: 'Products',
+        size: 200,
         cell: ({ row }) => {
             return (
                 <div>
@@ -58,7 +66,7 @@ const columns: ColumnDef<OrderWithProducts>[] = [
         accessorKey: 'time',
         header: ({ column }) => {
             return (
-                <Button variant="ghost"
+                <Button variant="ghost" className="px-0"
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
 
                 >

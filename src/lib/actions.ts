@@ -1,9 +1,8 @@
 'use server'
 import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
-import { Order } from "@prisma/client"
 import { CartItem, CheckoutFormState, OrderStatusProps } from "./types"  
-import { z, ZodError } from 'zod';
+import { z } from 'zod';
 import { revalidatePath } from "next/cache"
 
 const CartItemSchema = z.object({
@@ -110,6 +109,7 @@ export const getOrders = async () => {
         }
     })
   };
+
 export const getOrder = async (id: number) => {
     return await prisma.order.findFirst({
         include: {
@@ -155,4 +155,35 @@ export const showProduct = async (id: number) => {
         }
     })
     revalidatePath('/dashboard/menu')
+}
+
+export const duplicateProduct = async (id: number) => {
+    try{
+        const product = await prisma.product.findFirst({
+            where: {
+                id: 99
+            }
+        })
+
+        if (!product) {
+            return { success: false, error: 'Product not found' }
+        }
+
+        await prisma.product.create({
+            data: {
+                name: product.name,
+                price: product.price,
+                active: product.active,
+                description: product.description,
+                ingredients: product.ingredients,
+                image: product.image
+            }
+        })
+
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }
+    catch (error) {
+        return { success: false, error: 'Failed to duplicate product' }
+    }
 }

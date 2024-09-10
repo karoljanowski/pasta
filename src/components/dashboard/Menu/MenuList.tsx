@@ -7,11 +7,10 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import ProductVisibilityToggler from "./ProductVisibilityToggler";
+import ProductDuplicateButton from "./ProductDuplicateButton";
 
 interface MenuProps {
     menu: Product[]
@@ -45,10 +44,7 @@ const MenuList = ({ menu }: MenuProps) => {
                                                 <Edit2 className="w-4 h-4 mr-2" />
                                                 Edit
                                             </DropdownMenuItem>
-                                            <DropdownMenuItem className="text-green-500">
-                                                <Copy className="w-4 h-4 mr-2" />
-                                                Duplicate
-                                            </DropdownMenuItem>
+                                            <ProductDuplicateButton id={item.id} />
                                             <ProductVisibilityToggler active={item.active} id={item.id} />
                                         </DropdownMenuContent>
                                     </DropdownMenu>

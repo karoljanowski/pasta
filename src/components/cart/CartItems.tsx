@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Minus, Plus, Trash } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { CartItem } from "@/lib/types";
 
@@ -41,16 +40,16 @@ const CartItems = ({ mode }: Mode) => {
                                 <div className="flex items-center gap-4">
                                     <div className="flex items-center border rounded">
                                         <button onClick={() => handleDecreaseQuantity(item)} className="p-2 hover:bg-gray-200">
-                                            <FontAwesomeIcon icon={faMinus} />
+                                            <Minus />
                                         </button>
                                         <span className="px-4">{item.quantity}</span>
                                         <button onClick={() => handleIncreaseQuantity(item)} className="p-2 hover:bg-gray-200">
-                                            <FontAwesomeIcon icon={faPlus} />
+                                            <Plus />
                                         </button>
                                     </div>
                                     <p className="text-lg font-semibold">${(item.productPrice * item.quantity).toFixed(2)}</p>
                                     <button onClick={() => removeItem(item.productId)} className={`${mode == 'White' ? 'text-red-600 hover:text-red-800' : 'text-gray-300 hover:text-gray-500'}`}>
-                                        <FontAwesomeIcon icon={faTrash} className="w-5 h-5" />
+                                        <Trash className="w-5 h-5" />
                                     </button>
                                 </div>
                             </div>
