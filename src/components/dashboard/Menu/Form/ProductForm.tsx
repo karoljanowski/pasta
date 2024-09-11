@@ -17,7 +17,7 @@ const ProductEdit = ({ product }: { product: Product }) => {
         if (state.success) {
             toast.success('Product edited');
             redirect('/dashboard/menu');
-        } else {
+        } else if (!state.success && state.errors) {
             toast.error('Product not edited. Please try again');
         }
 
