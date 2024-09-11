@@ -35,7 +35,7 @@ const EditIngredients = ({ ingredientsInitial }: { ingredientsInitial: string[] 
                     </div>
                 ))}
             </div>
-            <Button className="px-12 self-start" onClick={() => setIngredients(prev => [...prev, ''])}>Add Ingredient</Button>
+            <Button type="button" className="px-12 self-start" onClick={() => setIngredients(prev => [...prev, ''])}>Add Ingredient</Button>
         </div>
     )
 }

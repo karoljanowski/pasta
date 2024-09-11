@@ -21,7 +21,7 @@ const ProductDuplicateButton = ({ id }: { id: number }) => {
     }
     return (
         <>
-            <DropdownMenuItem onClick={() => handleDuplicate(id)} className="text-green-500">
+            <DropdownMenuItem onClick={() => handleDuplicate(id)} className="text-green-500 cursor-pointer">
                 <Copy className="w-4 h-4 mr-2" />
                 Duplicate
             </DropdownMenuItem>
