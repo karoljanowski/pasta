@@ -4,12 +4,24 @@ import { OrderStatusProps } from "@/lib/types";
 import { OrderStatus } from "@prisma/client";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "../../ui/select";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const SelectStatus = ({ status, id }: OrderStatusProps) => {
     const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(status);
     const statusArray = Object.values(OrderStatus);
 
     const handleChange = async (newStatus: OrderStatus) => {
+        try {
+            const reponse = await handleChangeStatus({ status: newStatus, id });
+            if (reponse.success) {
+                toast.success('Status updated');
+                setSelectedStatus(newStatus);
+            } else {
+                toast.error('Order not found');
+            }
+        } catch (error) {
+            toast.error('Error');
+        }
         setSelectedStatus(newStatus);
         await handleChangeStatus({ status: newStatus, id });
     };

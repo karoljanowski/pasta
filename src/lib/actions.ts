@@ -1,9 +1,10 @@
 'use server'
 import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
-import { CartItem, CheckoutFormState, OrderStatusProps } from "./types"  
+import { CartItem, CheckoutFormState, OrderStatusProps, ProductFormState } from "./types"  
 import { z } from 'zod';
 import { revalidatePath } from "next/cache"
+import { Product } from "@prisma/client";
 
 const CartItemSchema = z.object({
     productId: z.number(),
@@ -87,15 +88,20 @@ export const handleNewOrder = async (state: CheckoutFormState, formData: FormDat
 
 
 export const handleChangeStatus = async ({status, id} : OrderStatusProps) => {
-    await prisma.order.update({
-        where: {
-            id: id
-        },
-        data: {
-            status: status
-        }
-    })
-    revalidatePath('/dashboard/orders')
+    try{
+        await prisma.order.update({
+            where: {
+                id: id
+            },
+            data: {
+                status: status
+            }
+        })
+        revalidatePath('/dashboard/orders')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
 }
 
 export const getOrders = async () => {
@@ -133,35 +139,108 @@ export const getMenu = async () => {
     });
 };
 
-export const hideProduct = async (id: number) => {
-    await prisma.product.update({
+export const getProduct = async (id: number) => {
+    return await prisma.product.findFirst({
         where: {
             id: id
-        },
-        data: {
-            active: false
         }
+    });
+}
+
+const ProductSchema = z.object({
+    id: z.string().transform(value => Number(value)),
+    name: z.string().min(1, 'Name is required'),
+    price: z.string().refine((value) => {
+        return !isNaN(Number(value)) && Number(value) > 0
+    }, {
+        message: 'Price has to be positive number'
     })
-    revalidatePath('/dashboard/menu')
+    .transform(value => Number(value)),
+    description: z.string().min(1, 'Description is required'),
+    ingredients: z.string()
+    .transform((data) => JSON.parse(data))
+    .refine((array) => z.array(z.string()).safeParse(array).success, {
+        message: 'Invalid ingredients'
+    }),
+});
+
+export const editProduct = async (state: ProductFormState, formData: FormData) => {
+    try {
+        const parsedResult = ProductSchema.safeParse({
+            id: formData.get('id'),
+            name: formData.get('name'),
+            price: formData.get('price'),
+            description: formData.get('description'),
+            ingredients: formData.get('ingredients'),
+        });
+
+        if (!parsedResult.success) {
+            return {
+                success: false,
+                errors: parsedResult.error.flatten().fieldErrors
+              };
+        }
+
+        const validatedData = parsedResult.data;
+
+        await prisma.product.update({
+            where: {
+                id: validatedData.id
+            },
+            data: {
+                name: validatedData.name,
+                price: validatedData.price,
+                description: validatedData.description,
+                ingredients: validatedData.ingredients,
+            }
+        });
+
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }catch (error) {
+        return {success: false}
+    }
+}
+
+export const hideProduct = async (id: number) => {
+    try {
+        await prisma.product.update({
+            where: {
+                id: id
+            },
+            data: {
+                active: false
+            }
+        })
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
 }
 
 export const showProduct = async (id: number) => {
-    await prisma.product.update({
-        where: {
-            id: id
-        },
-        data: {
-            active: true
-        }
-    })
-    revalidatePath('/dashboard/menu')
+    try {
+        await prisma.product.update({
+            where: {
+                id: id
+            },
+            data: {
+                active: true
+            }
+        })
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
 }
 
 export const duplicateProduct = async (id: number) => {
     try{
         const product = await prisma.product.findFirst({
             where: {
-                id: 99
+                id: id
             }
         })
 
@@ -185,5 +264,19 @@ export const duplicateProduct = async (id: number) => {
     }
     catch (error) {
         return { success: false, error: 'Failed to duplicate product' }
+    }
+}
+
+export const deleteProduct = async (id: number) => {
+    try {
+        await prisma.product.delete({
+            where: {
+                id: id
+            }
+        })
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
     }
 }

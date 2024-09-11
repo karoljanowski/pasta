@@ -28,6 +28,18 @@ export type CheckoutFormState = {
     orderId?: number 
 }
 
+export type ProductFormState = {
+    success: boolean,
+    errors?: {
+        id?: string[] | undefined;
+        name?: string[] | undefined;
+        description?: string[] | undefined;
+        price?: string[] | undefined;
+        ingredients?: string[] | undefined;
+        image?: string[] | undefined;
+      };
+}
+
 export type CartItem = {
     productId: number
     productName: string

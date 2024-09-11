@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Teko } from "next/font/google";
 import "./globals.css";
+import Toast from "@/components/Toast";
 
 const teko = Teko({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
         <main>
           {children}
         </main>
+        <Toast />
       </body>
     </html>
   );

@@ -11,8 +11,8 @@ const ProductDuplicateButton = ({ id }: { id: number }) => {
         try {
             const result = await duplicateProduct(id);
             if (result.success) {
+                toast.success('Product duplicated');
             } else {
-                console.log(result.error);
                 toast.error('Product not found');
             }
         } catch (err) {
@@ -21,7 +21,6 @@ const ProductDuplicateButton = ({ id }: { id: number }) => {
     }
     return (
         <>
-            <Toaster position="top-center" reverseOrder={false} />
             <DropdownMenuItem onClick={() => handleDuplicate(id)} className="text-green-500">
                 <Copy className="w-4 h-4 mr-2" />
                 Duplicate

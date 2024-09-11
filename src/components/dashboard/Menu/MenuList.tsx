@@ -1,16 +1,17 @@
 import { Product } from "@prisma/client";
 import Image from "next/image";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Separator } from "@/components/ui/separator"
 import { Dot, Wheat, DollarSign, EllipsisVertical, Trash2, Edit2, EyeOff, Copy } from 'lucide-react'
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import ProductVisibilityToggler from "./ProductVisibilityToggler";
 import ProductDuplicateButton from "./ProductDuplicateButton";
+import ProductDeleteButton from "./ProductDeleteButton";
+import ProductEditButton from "./ProductEditButton";
 
 interface MenuProps {
     menu: Product[]
@@ -36,14 +37,8 @@ const MenuList = ({ menu }: MenuProps) => {
                                             <EllipsisVertical />
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
-                                            <DropdownMenuItem className="text-red-500">
-                                                <Trash2 className="w-4 h-4 mr-2" />
-                                                Delete
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem className="text-blue-500">
-                                                <Edit2 className="w-4 h-4 mr-2" />
-                                                Edit
-                                            </DropdownMenuItem>
+                                            <ProductDeleteButton id={item.id} />
+                                            <ProductEditButton id={item.id} />
                                             <ProductDuplicateButton id={item.id} />
                                             <ProductVisibilityToggler active={item.active} id={item.id} />
                                         </DropdownMenuContent>
