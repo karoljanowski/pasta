@@ -4,9 +4,10 @@ import { deleteProduct } from "@/lib/actions";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
-const ProductDeleteButton = ({ id }: { id: number }) => {
+const ProductDeleteButton = ({ id, setLoading }: { id: number, setLoading: (loading: boolean) => void }) => {
     const handleDelete = async (id: number) => {
         try {
+            setLoading(true);
             const result = await deleteProduct(id);
             if (result.success) {
                 toast.success('Product deleted');
@@ -15,6 +16,8 @@ const ProductDeleteButton = ({ id }: { id: number }) => {
             }
         } catch (err) {
             toast.error('Erorr');
+        } finally {
+            setLoading(false);
         }
     }
     return (

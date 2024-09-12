@@ -2,16 +2,9 @@ import { Product } from "@prisma/client";
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Separator } from "@/components/ui/separator"
-import { Dot, Wheat, DollarSign, EllipsisVertical, Trash2, Edit2, EyeOff, Copy } from 'lucide-react'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import ProductVisibilityToggler from "./ProductVisibilityToggler";
-import ProductDuplicateButton from "./ProductDuplicateButton";
-import ProductDeleteButton from "./ProductDeleteButton";
-import ProductEditButton from "./ProductEditButton";
+import { Dot, Wheat, DollarSign } from 'lucide-react'
+import ProductActions from "./ProductActions";
+import { boolean } from "zod";
 
 interface MenuProps {
     menu: Product[]
@@ -32,17 +25,7 @@ const MenuList = ({ menu }: MenuProps) => {
                                     <CardTitle>
                                         {item.name}
                                     </CardTitle>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger className="ml-auto">
-                                            <EllipsisVertical />
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <ProductDeleteButton id={item.id} />
-                                            <ProductEditButton id={item.id} />
-                                            <ProductDuplicateButton id={item.id} />
-                                            <ProductVisibilityToggler active={item.active} id={item.id} />
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
+                                    <ProductActions active={item.active} id={item.id} />
                                 </div>
                             </CardHeader>
                             <Separator />

@@ -4,10 +4,11 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { EyeOff, Eye } from "lucide-react"
 import toast from "react-hot-toast"
 
-const ProductVisibilityToggler = ({ active, id }: { active: boolean, id: number }) => {
+const ProductVisibilityToggler = ({ active, id, setLoading }: { active: boolean, id: number, setLoading: (loading: boolean) => void }) => {
 
     const toggleVisibility = async () => {
         try {
+            setLoading(true)
             const response = active ? await hideProduct(id) : await showProduct(id)
             if (response?.success) {
                 toast.success('Product visibility toggled')
@@ -16,6 +17,8 @@ const ProductVisibilityToggler = ({ active, id }: { active: boolean, id: number 
             }
         } catch (error) {
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 

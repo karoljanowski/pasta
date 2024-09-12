@@ -5,10 +5,11 @@ import { duplicateProduct } from "@/lib/actions";
 import { Toaster, toast } from "react-hot-toast";
 import { useEffect } from "react";
 
-const ProductDuplicateButton = ({ id }: { id: number }) => {
+const ProductDuplicateButton = ({ id, setLoading }: { id: number, setLoading: (loading: boolean) => void }) => {
 
     const handleDuplicate = async (id: number) => {
         try {
+            setLoading(true);
             const result = await duplicateProduct(id);
             if (result.success) {
                 toast.success('Product duplicated');
@@ -17,6 +18,8 @@ const ProductDuplicateButton = ({ id }: { id: number }) => {
             }
         } catch (err) {
             toast.error('Erorr');
+        } finally {
+            setLoading(false);
         }
     }
     return (

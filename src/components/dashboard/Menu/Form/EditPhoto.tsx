@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
-const EditPhoto = ({ initialImage }: { initialImage: string }) => {
-    const [image, setImage] = useState<string>(initialImage);
+const EditPhoto = ({ initialImage }: { initialImage?: string }) => {
+    const [image, setImage] = useState<string | undefined>(initialImage ? initialImage : '');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];

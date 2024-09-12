@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Trash } from "lucide-react"
 
-const EditIngredients = ({ ingredientsInitial }: { ingredientsInitial: string[] }) => {
-    const [ingredients, setIngredients] = useState<string[]>(ingredientsInitial)
+const EditIngredients = ({ ingredientsInitial }: { ingredientsInitial?: string[] }) => {
+    const [ingredients, setIngredients] = useState<string[]>(ingredientsInitial ?? [''])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const { value } = event.target

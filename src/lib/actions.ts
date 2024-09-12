@@ -147,7 +147,7 @@ export const getProduct = async (id: number) => {
     });
 }
 
-const ProductSchema = z.object({
+const ProductEditSchema = z.object({
     id: z.string().transform(value => Number(value)),
     name: z.string().min(1, 'Name is required'),
     price: z.string().refine((value) => {
@@ -164,9 +164,11 @@ const ProductSchema = z.object({
     }),
 });
 
+const ProductAddSchema = ProductEditSchema.omit({id: true});
+
 export const editProduct = async (state: ProductFormState, formData: FormData) => {
     try {
-        const parsedResult = ProductSchema.safeParse({
+        const parsedResult = ProductEditSchema.safeParse({
             id: formData.get('id'),
             name: formData.get('name'),
             price: formData.get('price'),
@@ -192,6 +194,42 @@ export const editProduct = async (state: ProductFormState, formData: FormData) =
                 price: validatedData.price,
                 description: validatedData.description,
                 ingredients: validatedData.ingredients,
+            }
+        });
+
+        revalidatePath('/dashboard/menu')
+        return { success: true }
+    }catch (error) {
+        return {success: false}
+    }
+}
+
+export const addProduct = async (state: ProductFormState, formData: FormData) => {
+    try {
+        const parsedResult = ProductAddSchema.safeParse({
+            name: formData.get('name'),
+            price: formData.get('price'),
+            description: formData.get('description'),
+            ingredients: formData.get('ingredients'),
+        });
+
+        if (!parsedResult.success) {
+            return {
+                success: false,
+                errors: parsedResult.error.flatten().fieldErrors
+              };
+        }
+
+        const validatedData = parsedResult.data;
+
+        await prisma.product.create({
+            data: {
+                name: validatedData.name,
+                price: validatedData.price,
+                description: validatedData.description,
+                ingredients: validatedData.ingredients,
+                active: true,
+                image: ''
             }
         });
 
