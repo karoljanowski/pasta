@@ -1,6 +1,7 @@
 'use client'
 import { Product } from "@prisma/client";
-import { Input, Textarea } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useFormState } from "react-dom";
 import { editProduct, addProduct } from "@/lib/actions";
 import { useEffect } from "react";
@@ -38,7 +39,7 @@ const ProductEdit = ({ product, mode }: ProductFormProps) => {
                     <Input defaultValue={product?.name} name="name" placeholder="Product name" />
                     <Input defaultValue={product?.price} name="price" placeholder="Product price" />
                 </div>
-                <Textarea className="h-24 my-3" defaultValue={product?.description} name="description" placeholder="Product description" />
+                <Textarea className="h-24 my-3 resize-none" defaultValue={product?.description} name="description" placeholder="Product description" />
                 <EditIngredients ingredientsInitial={product?.ingredients} />
 
                 <ProductFormButton />

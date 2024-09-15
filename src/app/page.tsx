@@ -8,12 +8,15 @@ import About from "@/components/About";
 import { getMenu } from "@/lib/actions";
 import CartModal from "@/components/cart/CartModal";
 import Footer from "@/components/Footer";
+import { Teko } from "next/font/google";
+
+const teko = Teko({ subsets: ["latin"] });
 
 export default async function Home() {
   const menu = await getMenu()
 
   return (
-    <>
+    <div className={`${teko.className}`}>
       <Header />
       <main className="min-h-screen flex flex-col">
         <div className="h-[90lvh] flex flex-col justify-evenly container mx-auto">
@@ -26,6 +29,6 @@ export default async function Home() {
       </main>
       <Footer />
       <CartModal />
-    </>
+    </div>
   );
 }

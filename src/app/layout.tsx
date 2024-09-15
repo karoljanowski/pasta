@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-import { Teko } from "next/font/google";
 import "./globals.css";
 import Toast from "@/components/Toast";
-
-const teko = Teko({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${teko.className} scroll-smooth`}>
+      <body className="scroll-smooth">
         <main>
           {children}
         </main>

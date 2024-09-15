@@ -1,10 +1,11 @@
-import { getMenu } from "@/lib/actions";
 import MenuList from "@/components/dashboard/Menu/MenuList";
+import MenuListSkeleton from "@/components/dashboard/Menu/MenuListSkeleton";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const Page = async () => {
-    const menu = await getMenu()
+
 
     return (
         <>
@@ -13,7 +14,9 @@ const Page = async () => {
             <div className="flex justify-end">
                 <Link href="/dashboard/menu/add"><Button>Add product</Button></Link>
             </div>
-            <MenuList menu={menu} />
+            <Suspense fallback={<MenuListSkeleton />}>
+                <MenuList />
+            </Suspense>
         </>
     );
 }

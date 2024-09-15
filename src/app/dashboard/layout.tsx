@@ -10,7 +10,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     return (
         <div className={`${roboto.className} bg-gray-100 min-h-screen px-4 py-4`}>
             <div className="container mx-auto">
-                <h1 className="text-2xl uppercase font-bold mb-2">Dashboard</h1>
                 <Card>
                     <CardHeader>
                         <Header />

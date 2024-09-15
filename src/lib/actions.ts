@@ -5,6 +5,7 @@ import { CartItem, CheckoutFormState, OrderStatusProps, ProductFormState } from 
 import { z } from 'zod';
 import { revalidatePath } from "next/cache"
 import { Product } from "@prisma/client";
+import { readdirSync, unlinkSync, writeFileSync } from "fs";
 
 const CartItemSchema = z.object({
     productId: z.number(),
@@ -140,6 +141,7 @@ export const getMenu = async () => {
 };
 
 export const getProduct = async (id: number) => {
+    await new Promise(resolve => setTimeout(resolve, 3000));
     return await prisma.product.findFirst({
         where: {
             id: id
@@ -317,4 +319,42 @@ export const deleteProduct = async (id: number) => {
     }catch (error) {
         return { success: false }
     }
+}
+
+export const addFile = async (formData: FormData) => {
+    try {
+        const file = formData.get('file') as File;
+        const buffer = await file.arrayBuffer();
+        const base64 = Buffer.from(buffer).toString('base64');
+
+        console.log(buffer)
+
+        writeFileSync(`public/products/${file.name}`, base64, 'base64');
+        revalidatePath('/dashboard/file-manager')
+        return { success: true }
+    }
+    catch (error) {
+        return { success: false }
+    }   
+}
+
+export const getFiles = async () => {
+    try {
+        const files = readdirSync('public/products');
+        return { success: true, files: files }
+    } catch (error) {
+        return { success: false }
+    }
+}
+
+export const deleteFile = async (file: string) => {
+    try {
+        const path = `public/products/${file}`;
+        unlinkSync(path);
+        revalidatePath('/dashboard/file-manager')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
+
 }

@@ -4,13 +4,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
 import { Separator } from "@/components/ui/separator"
 import { Dot, Wheat, DollarSign } from 'lucide-react'
 import ProductActions from "./ProductActions";
-import { boolean } from "zod";
+import { getMenu } from "@/lib/actions";
 
 interface MenuProps {
     menu: Product[]
 }
 
-const MenuList = ({ menu }: MenuProps) => {
+const MenuList = async () => {
+    const menu = await getMenu()
     return (
         <div className="mt-6">
             <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
