@@ -207,6 +207,7 @@ export const editProduct = async (state: ProductFormState, formData: FormData) =
         });
 
         revalidatePath('/dashboard/menu')
+        revalidatePath('/')
         return { success: true }
     }catch (error) {
         return {success: false}
