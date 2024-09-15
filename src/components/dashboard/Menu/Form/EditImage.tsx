@@ -4,11 +4,11 @@ import ImageList from "./ImageList";
 import Image from "next/image";
 import { Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
-import { ListBlobResultBlob } from "@vercel/blob";
+import { HeadBlobResult, ListBlobResultBlob } from "@vercel/blob";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
-const EditImage = ({ initialImage }: { initialImage?: string }) => { // tu jest błąd, poprawić działanie initialImage
-    const [image, setImage] = useState<ListBlobResultBlob | undefined>();
+const EditImage = ({ initialImage }: { initialImage?: HeadBlobResult }) => {
+    const [image, setImage] = useState<ListBlobResultBlob | HeadBlobResult | undefined>(initialImage ? initialImage : undefined);
     return (
         <>
             <input type="hidden" name="image" value={image?.downloadUrl} />

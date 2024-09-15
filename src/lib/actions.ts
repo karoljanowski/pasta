@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { revalidatePath } from "next/cache"
 import { Product } from "@prisma/client";
 import { readdirSync, unlinkSync, writeFileSync } from "fs";
-import { list, put, del } from '@vercel/blob';
+import { list, put, del, head } from '@vercel/blob';
 
 const CartItemSchema = z.object({
     productId: z.number(),
@@ -142,12 +142,15 @@ export const getMenu = async () => {
 };
 
 export const getProduct = async (id: number) => {
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    return await prisma.product.findFirst({
+    const product =  await prisma.product.findFirst({
         where: {
             id: id
         }
     });
+    if(product){
+        const image = await head(product.image)
+        return {product: product, image: image}
+    }
 }
 
 const ProductEditSchema = z.object({

@@ -10,13 +10,15 @@ import EditImage from "./EditImage";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import ProductFormButton from "./ProductFormButton";
+import { HeadBlobResult } from "@vercel/blob";
 
 interface ProductFormProps {
     product?: Product;
+    image: HeadBlobResult;
     mode: 'edit' | 'add';
 }
 
-const ProductEdit = ({ product, mode }: ProductFormProps) => {
+const ProductEdit = ({ product, mode, image }: ProductFormProps) => {
     const action = mode === 'edit' ? editProduct : addProduct;
     const [state, formAction] = useFormState(action, { success: false });
 
@@ -34,7 +36,7 @@ const ProductEdit = ({ product, mode }: ProductFormProps) => {
         <div className="mt-5">
             <form action={formAction}>
                 {mode == 'edit' && <input type="hidden" name="id" value={product?.id} />}
-                <EditImage initialImage={product?.image} />
+                <EditImage initialImage={image} />
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 my-3">
                     <Input defaultValue={product?.name} name="name" placeholder="Product name" />
                     <Input defaultValue={product?.price} name="price" placeholder="Product price" />
