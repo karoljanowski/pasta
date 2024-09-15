@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { addFile } from "@/lib/actions"
@@ -7,9 +7,11 @@ import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog"
 import { useFormState } from "react-dom"
 import FileUploadFormButton from "./FileUploadFormButton"
 import { Image } from "lucide-react"
+import toast from 'react-hot-toast'
 
 const FileUpload = () => {
     const [state, action] = useFormState(addFile, { success: false })
+    const [open, setOpen] = useState(false)
     const [fileName, setFileName] = useState("Choose file")
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +20,15 @@ const FileUpload = () => {
         }
     }
 
+    useEffect(() => {
+        if (state.success) {
+            setOpen(false)
+            toast.success('File uploaded')
+        }
+    }, [state])
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button>Upload file</Button>
             </DialogTrigger>

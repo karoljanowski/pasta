@@ -2,6 +2,7 @@ import { addFile, getFiles } from "@/lib/actions";
 import FileList from "@/components/dashboard/FileManager/FileList";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/dashboard/FileManager/FileUpload";
+import { Suspense } from "react";
 
 const Page = () => {
     return (
@@ -11,7 +12,9 @@ const Page = () => {
             <div className="flex justify-end mt-2">
                 <FileUpload />
             </div>
-            <FileList />
+            <Suspense fallback={<div>Loading...</div>}>
+                <FileList />
+            </Suspense>
         </>
     )
 }

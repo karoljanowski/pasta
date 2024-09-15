@@ -165,6 +165,7 @@ const ProductEditSchema = z.object({
     .refine((array) => z.array(z.string()).safeParse(array).success, {
         message: 'Invalid ingredients'
     }),
+    image: z.string().min(1, 'Image is required'),
 });
 
 const ProductAddSchema = ProductEditSchema.omit({id: true});
@@ -177,6 +178,7 @@ export const editProduct = async (state: ProductFormState, formData: FormData) =
             price: formData.get('price'),
             description: formData.get('description'),
             ingredients: formData.get('ingredients'),
+            image: formData.get('image')
         });
 
         if (!parsedResult.success) {
@@ -197,6 +199,7 @@ export const editProduct = async (state: ProductFormState, formData: FormData) =
                 price: validatedData.price,
                 description: validatedData.description,
                 ingredients: validatedData.ingredients,
+                image: validatedData.image
             }
         });
 

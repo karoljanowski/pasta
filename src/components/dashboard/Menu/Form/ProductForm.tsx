@@ -6,7 +6,7 @@ import { useFormState } from "react-dom";
 import { editProduct, addProduct } from "@/lib/actions";
 import { useEffect } from "react";
 import EditIngredients from "./EditIngredients";
-import EditPhoto from "./EditPhoto";
+import EditImage from "./EditImage";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import ProductFormButton from "./ProductFormButton";
@@ -34,7 +34,7 @@ const ProductEdit = ({ product, mode }: ProductFormProps) => {
         <div className="mt-5">
             <form action={formAction}>
                 {mode == 'edit' && <input type="hidden" name="id" value={product?.id} />}
-                <EditPhoto initialImage={product?.image} />
+                <EditImage initialImage={product?.image} />
                 <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4 my-3">
                     <Input defaultValue={product?.name} name="name" placeholder="Product name" />
                     <Input defaultValue={product?.price} name="price" placeholder="Product price" />

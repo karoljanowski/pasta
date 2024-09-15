@@ -1,11 +1,11 @@
 import { getFiles } from "@/lib/actions";
 import ImageItem from "./ImageItem";
+import FilesEmpty from "./FilesEmpty";
 
 const FileList = async () => {
     const files = await getFiles();
 
-    if (files.success === false) return <div>Failed to get files</div>
-    if (!files.files?.length) return <div>Failed to get files</div>
+    if (!files.files?.length) return <FilesEmpty />
     return (
         <div>
             {files.files?.map((image) => (
