@@ -14,7 +14,7 @@ import { HeadBlobResult } from "@vercel/blob";
 
 interface ProductFormProps {
     product?: Product;
-    image: HeadBlobResult;
+    image?: HeadBlobResult;
     mode: 'edit' | 'add';
 }
 
