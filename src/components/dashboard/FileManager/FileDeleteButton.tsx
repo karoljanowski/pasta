@@ -1,14 +1,14 @@
 'use client'
 import { deleteFile } from '@/lib/actions';
-import { Trash2 } from 'lucide-react';
+import { Loader2, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const FileDeleteButton = ({file}: {file: string}) => {
+const FileDeleteButton = ({ image }: { image: string }) => {
     const [loading, setLoading] = useState<boolean>(false);
 
     const handleDelete = async (file: string) => {
-        try{
+        try {
             setLoading(true);
             const result = await deleteFile(file);
             if (result.success) {
@@ -16,9 +16,9 @@ const FileDeleteButton = ({file}: {file: string}) => {
             } else {
                 toast.error('Image not found');
             }
-        }catch(error){
+        } catch (error) {
             toast.error('Image not found');
-        }finally{
+        } finally {
             setLoading(false);
         }
 
@@ -26,7 +26,14 @@ const FileDeleteButton = ({file}: {file: string}) => {
 
 
     return (
-        <Trash2 onClick={() => handleDelete(file)} className="ml-auto mr-2 w-4 h-4 text-red-500 cursor-pointer"/>
+        <>
+            {loading ? (
+                <Loader2 className='animate-spin w-4 h-4 ml-auto mr-2' />
+            ) : (
+                <Trash2 onClick={() => handleDelete(image)} className="ml-auto mr-2 w-4 h-4 text-red-500 cursor-pointer" />
+            )
+            }
+        </>
     )
 }
 

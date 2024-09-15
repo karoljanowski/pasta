@@ -1,11 +1,12 @@
 'use server'
 import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
-import { CartItem, CheckoutFormState, OrderStatusProps, ProductFormState } from "./types"  
+import { CartItem, CheckoutFormState, ImageUploadFormState, OrderStatusProps, ProductFormState } from "./types"  
 import { z } from 'zod';
 import { revalidatePath } from "next/cache"
 import { Product } from "@prisma/client";
 import { readdirSync, unlinkSync, writeFileSync } from "fs";
+import { list, put, del } from '@vercel/blob';
 
 const CartItemSchema = z.object({
     productId: z.number(),
@@ -320,16 +321,38 @@ export const deleteProduct = async (id: number) => {
         return { success: false }
     }
 }
+const MAX_FILE_SIZE = 4500000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
-export const addFile = async (formData: FormData) => {
+const fileSchema = z.object({
+  image: z
+    .any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 4.5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported."
+    )
+})
+
+export const addFile = async (state: ImageUploadFormState, formData: FormData ) => {
     try {
-        const file = formData.get('file') as File;
-        const buffer = await file.arrayBuffer();
-        const base64 = Buffer.from(buffer).toString('base64');
+        const parsedResult = fileSchema.safeParse({
+            image: formData.get('file')
+        });
+        if(parsedResult.error) {
+            return {
+                success: false,
+                error: parsedResult.error.errors[0].message
+            }
+        }
 
-        console.log(buffer)
+        const parsedData = parsedResult.data
+        const imageFile = parsedData.image as File
 
-        writeFileSync(`public/products/${file.name}`, base64, 'base64');
+        await put(imageFile.name, imageFile, {
+            access: 'public',
+        });
+
         revalidatePath('/dashboard/file-manager')
         return { success: true }
     }
@@ -340,17 +363,16 @@ export const addFile = async (formData: FormData) => {
 
 export const getFiles = async () => {
     try {
-        const files = readdirSync('public/products');
-        return { success: true, files: files }
+        const blobs = await list()
+        return { success: true, files: blobs.blobs }
     } catch (error) {
         return { success: false }
     }
 }
 
-export const deleteFile = async (file: string) => {
+export const deleteFile = async (image: string) => {
     try {
-        const path = `public/products/${file}`;
-        unlinkSync(path);
+        await del(image)
         revalidatePath('/dashboard/file-manager')
         return { success: true }
     }catch (error) {

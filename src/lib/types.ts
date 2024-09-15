@@ -40,6 +40,13 @@ export type ProductFormState = {
       };
 }
 
+export type ImageUploadFormState = {
+    success: boolean,
+    errors?: {
+        image?: string[] | undefined;
+      };
+}
+
 export type CartItem = {
     productId: number
     productName: string
