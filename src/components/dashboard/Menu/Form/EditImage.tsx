@@ -9,10 +9,11 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 
 const EditImage = ({ initialImage }: { initialImage?: HeadBlobResult }) => {
     const [image, setImage] = useState<ListBlobResultBlob | HeadBlobResult | undefined>(initialImage ? initialImage : undefined);
+    const [open, setOpen] = useState(false);
     return (
         <>
             <input type="hidden" name="image" value={image?.downloadUrl} />
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
                 <DialogTrigger asChild>
                     <label className="mt-3 h-9 hover:bg-neutral-300 transition-all rounded-md cursor-pointer flex items-center border border-neutral-200 w-max px-8 gap-4">
                         {
@@ -37,7 +38,7 @@ const EditImage = ({ initialImage }: { initialImage?: HeadBlobResult }) => {
                         <DialogTitle>Choose image</DialogTitle>
                         <DialogDescription>Click on image to select</DialogDescription>
                     </DialogHeader>
-                    <ImageList setImage={setImage} />
+                    <ImageList setImage={setImage} setOpen={setOpen} />
                 </DialogContent>
             </Dialog>
         </>

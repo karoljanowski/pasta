@@ -15,6 +15,7 @@ model Product {
   image       String
   ingredients String[]
   active      Boolean        @default(true)
+  isBest      Boolean        @default(false)
   orders      OrderProduct[]
 }
 
@@ -37,6 +38,11 @@ model OrderProduct {
   product   Product @relation(fields: [productId], references: [id])
   productId Int
   quantity  Int
+}
+
+model Settings {
+  id                    Int @id @default(autoincrement())
+  deliveryTimeInMinutes Int @default(60)
 }
 
 enum PaymentType {

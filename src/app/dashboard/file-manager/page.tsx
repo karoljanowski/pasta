@@ -3,6 +3,7 @@ import FileList from "@/components/dashboard/FileManager/FileList";
 import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/dashboard/FileManager/FileUpload";
 import { Suspense } from "react";
+import { Loader2 } from "lucide-react";
 
 const Page = () => {
     return (
@@ -12,7 +13,7 @@ const Page = () => {
             <div className="flex justify-end mt-2">
                 <FileUpload />
             </div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="flex justify-center mt-2"><Loader2 className="mr-2 animate-spin" />Loading...</div>}>
                 <FileList />
             </Suspense>
         </>

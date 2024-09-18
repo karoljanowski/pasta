@@ -63,3 +63,15 @@ export type CartStore = {
     removeItem: (id: number) => void
     clearCart: () => void
 }
+
+export type DeliveryTimeFormState = {
+    success: boolean,
+    error?: {
+        time?: string[] | undefined;
+      };
+}
+
+export type BestProductsFormState = {
+    success: boolean,
+    errors?: string[] | undefined;
+}

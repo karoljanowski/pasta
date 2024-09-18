@@ -1,7 +1,7 @@
 'use server'
 import { pusherServer } from "./pusher"
 import { prisma } from "./prisma"
-import { CartItem, CheckoutFormState, ImageUploadFormState, OrderStatusProps, ProductFormState } from "./types"  
+import { BestProductsFormState, CartItem, CheckoutFormState, DeliveryTimeFormState, ImageUploadFormState, OrderStatusProps, ProductFormState } from "./types"  
 import { z } from 'zod';
 import { revalidatePath } from "next/cache"
 import { Product } from "@prisma/client";
@@ -381,6 +381,94 @@ export const deleteFile = async (image: string) => {
     try {
         await del(image)
         revalidatePath('/dashboard/file-manager')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
+
+}
+
+export const getDeliveryTime = async () => {
+    return await prisma.settings.findFirst({
+        where: {
+            id: 1
+        }
+    })
+}
+const DeliveryTimeSchema = z.object({
+    time: z.string().refine((value) => {
+        return !isNaN(Number(value))
+    }, {
+        message: 'Time has to be number'
+    })
+    .transform(value => Number(value)),
+})
+
+export const setDeliveryTime = async (state: DeliveryTimeFormState, formData: FormData) => {
+    try {
+        const parsedResult = DeliveryTimeSchema.safeParse({ 
+            time: formData.get('time') 
+        })
+
+        if(parsedResult.error){
+            console.log(parsedResult.error)
+            return {
+                success: false,
+                error: parsedResult.error.flatten().fieldErrors
+            }
+        }
+
+        const validatedData = parsedResult.data
+
+        await prisma.settings.update({
+            where: {
+                id: 1
+            },
+            data: {
+                deliveryTimeInMinutes: validatedData.time
+            }
+        })
+        revalidatePath('/dashboard/settings')
+        return { success: true }
+    }catch (error) {
+        return { success: false }
+    }
+}
+const BestProductsSchema = z.array(z.string()).length(6, "Exactly 6 products must be selected");
+
+export const setBestProducts = async (state: BestProductsFormState, formData: FormData) => {
+    try{
+        const productsID = Array.from(formData.entries())
+            .filter(([key, value]) => value === "on")
+            .map(([key]) => key);
+
+        const parsedResult = BestProductsSchema.safeParse(productsID)
+
+        if(parsedResult.error){
+            return {
+                success: false,
+                errors: parsedResult.error.flatten().formErrors
+            }
+        }
+
+        const validatedData = parsedResult.data
+
+        await prisma.product.updateMany({
+            data: {
+                isBest: false
+            }
+        })
+
+        await prisma.product.updateMany({
+            where: {
+                id: {
+                    in: validatedData.map(id => Number(id))
+                }
+            }, data: {
+                isBest: true
+            }
+        })
+        revalidatePath('/dashboard/settings')
         return { success: true }
     }catch (error) {
         return { success: false }
