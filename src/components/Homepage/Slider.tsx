@@ -15,8 +15,11 @@ const getResponsiveValues = (width: number) => {
     if (width >= 500) return { px: 500, radius: 130, imageSize: 100, space: 30 };
     return { px: 500, radius: 130, imageSize: 100, space: 30 };
 }
-
+//here you can find way to rotate the images and resize
 const Slider = ({ menu }: { menu: Product[] }) => {
+    if (typeof window !== 'undefined') {
+
+    }
     const { addItem } = useCartStore();
     const [dimensions, setDimensions] = useState(getResponsiveValues(window.innerWidth));
     const [activeName, setActiveName] = useState(menu[0].name);
@@ -78,12 +81,6 @@ const Slider = ({ menu }: { menu: Product[] }) => {
     };
 
     useEffect(() => {
-        const handleResize = () => setDimensions(getResponsiveValues(window.innerWidth));
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    useEffect(() => {
         if (inView) handleAnimation(activeIndex + 1);
     }, [inView, activeIndex]);
 
@@ -108,7 +105,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
                     <motion.span className="text-xl md:text-2xl xl:text-3xl max-w-[80%] md:max-w-[60%] xl:max-w-[50%] font-thin leading-6">
                         {activeDescription}
                     </motion.span>
-                    <Button onClick={handleAddToCart} variant="custom2" size="custom2">Add to cart</Button>
+                    <Button onClick={handleAddToCart} variant="custom2" className="mt-3" size="custom2">Add to cart</Button>
                 </motion.div>
 
                 <div ref={ref} className="w-full flex justify-center items-start overflow-hidden" style={{ height: svgSize / 2 }}>

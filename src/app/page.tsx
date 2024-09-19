@@ -8,8 +8,14 @@ import { getMenu } from "@/lib/actions";
 import CartModal from "@/components/cart/CartModal";
 import Footer from "@/components/Homepage/Footer";
 import { Teko } from "next/font/google";
+import dynamic from "next/dynamic";
 
 const teko = Teko({ subsets: ["latin"] });
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import('@/components/Homepage/Slider'),
+  { ssr: false }
+)
 
 export default async function Home() {
   const menu = await getMenu()
@@ -25,7 +31,7 @@ export default async function Home() {
             <Button variant="custom1" size="custom1" className="text-3xl py-7">Order</Button>
           </div>
         </div>
-        <Slider menu={menu} />
+        <DynamicComponentWithNoSSR menu={menu} />
         <About />
       </main>
       <Footer />
