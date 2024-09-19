@@ -91,8 +91,8 @@ const Slider = ({ menu }: { menu: Product[] }) => {
                 className="max-w-full"
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
+                viewport={{ margin: '-120px', once: true, amount: 0.3 }}
                 transition={{ duration: 0.2 }}
-                viewport={{ margin: '-200px', once: true }}
             >
                 <motion.div
                     animate={controls}

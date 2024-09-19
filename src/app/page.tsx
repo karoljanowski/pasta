@@ -12,7 +12,7 @@ import dynamic from "next/dynamic";
 
 const teko = Teko({ subsets: ["latin"] });
 
-const DynamicComponentWithNoSSR = dynamic(
+const DynamicSlider = dynamic(
   () => import('@/components/Homepage/Slider'),
   { ssr: false }
 )
@@ -31,7 +31,7 @@ export default async function Home() {
             <Button variant="custom1" size="custom1" className="text-3xl py-7">Order</Button>
           </div>
         </div>
-        <DynamicComponentWithNoSSR menu={menu} />
+        <DynamicSlider menu={menu} />
         <About />
       </main>
       <Footer />
