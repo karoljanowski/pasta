@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 const HiddenText = ({ style, text }: { style: string, text: string }) => {
     const ref = useRef(null)
-    const inView = useInView(ref, { margin: '-100px', once: true })
+    const inView = useInView(ref, { margin: '-120px', once: true, amount: 0.3 })
     const controls = useAnimation()
 
     useEffect(() => {

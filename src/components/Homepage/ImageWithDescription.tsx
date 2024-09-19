@@ -12,7 +12,7 @@ const ImageWithDescription = ({ heading, text, image, reverse }: { heading: stri
                 initial={{ opacity: 0, x: reverse ? '-10%' : '10%' }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                viewport={{ margin: '-200px', once: true, amount: 0.2 }}
+                viewport={{ margin: '-120px', once: true, amount: 0.3 }}
             >
                 <h3 className="text-3xl font-bold mb-4">{heading}</h3>
                 <p className="text-lg">{text}</p>
@@ -23,7 +23,7 @@ const ImageWithDescription = ({ heading, text, image, reverse }: { heading: stri
                 initial={{ opacity: 0, x: reverse ? '-10%' : '10%' }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                viewport={{ margin: '-200px', once: true, amount: 0.2 }}
+                viewport={{ margin: '-120px', once: true, amount: 0.3 }}
             >
                 <Image src={image} alt="About us" width={600} height={600} className="object-cover w-full h-full" />
             </motion.div>
