@@ -56,12 +56,15 @@ export type CartItem = {
   
 export type CartStore = {
     items: CartItem[]
-    totalQuantity: number,
-    totalPrice: number,
+    totalQuantity: number
+    totalPrice: number
+    cartOpen: boolean
+    cartTimeout: NodeJS.Timeout | null
     initializeCart: () => void
     addItem: (item: CartItem) => void
     removeItem: (id: number) => void
     clearCart: () => void
+    toggleCart: (open: boolean) => void
 }
 
 export type DeliveryTimeFormState = {

@@ -7,8 +7,8 @@ const teko = Teko({ subsets: ["latin"] });
 
 const CheckoutPage = () => {
     return (
-        <div className={`${teko.className} bg-red-700`}>
-            <div className="min-h-screen container mx-auto p-4 text-white">
+        <div className={`${teko.className}`}>
+            <div className="min-h-screen container mx-auto p-4">
                 <CheckoutSteps />
             </div>
         </div>

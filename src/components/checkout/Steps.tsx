@@ -1,88 +1,76 @@
 'use client'
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import CartItems from "../cart/CartItems";
-import CheckoutForm from "./CheckoutForm";
-import { useCartStore } from "@/lib/store";
-import { ChevronLeft } from "lucide-react";
+
+import { useEffect } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { useRouter, useSearchParams } from "next/navigation"
+import CartItems from "../cart/CartItems"
+import CheckoutForm from "./CheckoutForm"
+import { useCartStore } from "@/lib/store"
+import { ChevronLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 const CheckoutSteps = () => {
     const { items, totalPrice, totalQuantity, initializeCart } = useCartStore()
-    const [currentStep, setCurrentStep] = useState(1);
+    const router = useRouter()
+    const searchParams = useSearchParams()
 
     useEffect(() => {
         if (totalQuantity === 0) {
-            initializeCart();
+            initializeCart()
         }
-    }, [totalQuantity, initializeCart]);
+    }, [totalQuantity, initializeCart])
 
-    const handleNextStep = () => {
-        setCurrentStep(prev => prev + 1);
-    };
-
-    const handlePreviousStep = () => {
-        setCurrentStep(prev => prev - 1);
-    };
+    const step = searchParams.get('step') ? searchParams.get('step') : 'cart'
+    const isCartStep = step === 'cart'
+    const isOrderStep = step === 'order'
 
     return (
         <div className="container mx-auto mt-6">
-
-
             <AnimatePresence mode="wait">
-                {currentStep === 1 && (
+                {isCartStep && (
                     <motion.div
-                        key="step1"
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        variants={{
-                            initial: { opacity: 0, x: -100 },
-                            animate: { opacity: 1, x: 0 },
-                            exit: { opacity: 0, x: -100 },
-                        }}
+                        key="cart"
+                        initial={{ opacity: 0, x: -100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -100 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <h2 className="text-5xl mb-4">Review Your Cart</h2>
-                        <CartItems mode='Dark' />
+                        <h2 className="text-5xl mb-4">Your Cart</h2>
+                        <CartItems showQuantity={true} />
                         <div className="flex mt-6">
-                            <button
+                            <Button
                                 disabled={totalQuantity === 0}
-                                onClick={handleNextStep}
-                                className="hover:bg-yellow-200 w-full transition-all bg-white text-red-700 px-10 py-2 text-2xl border-red-700 border rounded-lg shadow-md shadow-gray-800">
+                                onClick={() => router.push('/checkout?step=order')}
+                                variant="custom1"
+                                size="custom1"
+                                className="w-full"
+                            >
                                 Proceed to Checkout
-                            </button>
+                            </Button>
                         </div>
                     </motion.div>
                 )}
 
-                {currentStep === 2 && (
+                {isOrderStep && (
                     <motion.div
-                        key="step2"
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        variants={{
-                            initial: { opacity: 0, x: 100 },
-                            animate: { opacity: 1, x: 0 },
-                            exit: { opacity: 0, x: 100 },
-                        }}
+                        key="order"
+                        initial={{ opacity: 0, x: 100 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 100 }}
                         transition={{ duration: 0.3 }}
                     >
-                        <div className="flex mt-6">
-                            <button
-                                onClick={handlePreviousStep}
-                                className="flex items-center mb-6 bg-yellow-50 text-red-700 rounded-lg px-4 py-1 hover:bg-red-700 hover:text-white border border-black shadow shadow-gray-800">
-                                <ChevronLeft className="w-3 h-3 mb-px" />
-                                Back to Cart
-                            </button>
-                        </div>
+                        <Button variant="custom1" className="text-base shadow-sm mb-6" onClick={() => router.push('checkout?step=cart')}>
+                            <ChevronLeft className="w-3 h-3 mb-px" />
+                            Back to Cart
+                        </Button>
+
                         <h2 className="text-5xl mb-6">Shipping Details</h2>
                         <CheckoutForm items={items} totalPrice={totalPrice} />
                     </motion.div>
                 )}
             </AnimatePresence>
         </div>
-    );
-};
+    )
+}
 
-export default CheckoutSteps;
+export default CheckoutSteps

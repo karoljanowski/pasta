@@ -7,6 +7,8 @@ export const useCartStore = create<CartStore>((set) => ({
     items: [],
     totalQuantity: 0,
     totalPrice: 0,
+    cartOpen: false,
+    cartTimeout: null,
 
     initializeCart: () => {
         const storedItems = localStorage.getItem(localStorageKey)
@@ -35,12 +37,22 @@ export const useCartStore = create<CartStore>((set) => ({
 
         localStorage.setItem(localStorageKey, JSON.stringify(updatedItems))
 
+        if (state.cartTimeout) {
+            clearTimeout(state.cartTimeout);
+        }
+
+        const timeout = setTimeout(() => {
+            set({ cartOpen: false });
+        }, 3000);
+
         return {
             items: updatedItems,
             totalQuantity: updatedItems.reduce((total, item) => total + item.quantity, 0),
-            totalPrice: updatedItems.reduce((total: number, item: CartItem) => total + item.productPrice * item.quantity, 0)
+            totalPrice: updatedItems.reduce((total: number, item: CartItem) => total + item.productPrice * item.quantity, 0),
+            cartOpen: true,
+            cartTimeout: timeout
         }
-        }),
+    }),
 
     removeItem: (id: number) =>
         set((state) => {
@@ -52,10 +64,20 @@ export const useCartStore = create<CartStore>((set) => ({
             totalQuantity: updatedItems.reduce((total, item) => total + item.quantity, 0),
             totalPrice: updatedItems.reduce((total: number, item: CartItem) => total + item.productPrice * item.quantity, 0)
         }
-        }),
+    }),
 
     clearCart: () => {
         localStorage.removeItem(localStorageKey)
         set({ items: [], totalQuantity: 0 })
     },
+
+    toggleCart: (open: boolean) => set((state) => {
+        if(state.cartTimeout) {
+            clearTimeout(state.cartTimeout);
+        }
+
+        return {
+            cartOpen: open
+        }
+    })
 }))
