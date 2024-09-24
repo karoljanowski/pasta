@@ -24,6 +24,12 @@ const CheckoutSteps = () => {
     const isCartStep = step === 'cart'
     const isOrderStep = step === 'order'
 
+    useEffect(() => {
+        if (items.length === 0) {
+            router.push('/checkout?step=cart')
+        }
+    }, [step])
+
     return (
         <div className="container mx-auto mt-6">
             <AnimatePresence mode="wait">

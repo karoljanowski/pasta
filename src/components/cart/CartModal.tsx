@@ -25,7 +25,7 @@ const CartModal = () => {
                         </div>
                     </div>
                 </HoverCardTrigger>
-                <HoverCardContent onMouseEnter={() => toggleCart(true)} sideOffset={16} className="w-full ml-5 shadow-md shadow-gray-800">
+                <HoverCardContent onMouseEnter={() => toggleCart(true)} sideOffset={16} className="w-full ml-5 shadow-md shadow-gray-800 min-w-56">
                     <p className="text-xl uppercase font-bold">Cart Items</p>
                     <CartItems />
                     {totalQuantity > 0 &&

@@ -11,13 +11,13 @@ const About = () => {
                     <ImageWithDescription
                         heading={'Pizza'}
                         text={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae nisi varius, facilisis dolor vel, bibendum turpis. Fusce quis hendrerit magna. Phasellus maximus, orci a scelerisque eleifend'}
-                        image={'/hero.webp'}
+                        image={'/about1.webp'}
                         reverse={false}
                     />
                     <ImageWithDescription
                         heading={'Pasta'}
                         text={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vitae nisi varius, facilisis dolor vel, bibendum turpis. Fusce quis hendrerit magna. Phasellus maximus, orci a scelerisque eleifend'}
-                        image={'/hero.webp'}
+                        image={'/about2.webp'}
                         reverse={true}
                     />
                 </div>
