@@ -4,12 +4,11 @@ import { handleNewOrder } from "@/lib/actions";
 import { CartItem, CheckoutFormState } from "@/lib/types";
 import CheckoutFormButton from "./CheckoutFormButton";
 import { Input } from "../ui/input";
-import { Select, SelectContent, SelectItem } from "../ui/select";
-import { SelectTrigger, SelectValue } from "@radix-ui/react-select";
 import { useCartStore } from "@/lib/store";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
+import CheckoutSelect from "./CheckoutSelect";
 
 const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: number }) => {
     const initialState: CheckoutFormState = { success: false }
@@ -71,21 +70,7 @@ const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: nu
                     />
                     <span className="text-white px-3 w-max rounded-md bg-red-700 mt-2">{state.errors?.customerStreet && state.errors.customerStreet[0]}</span>
                 </div>
-                <div className="flex flex-col">
-                    <label htmlFor="paymentType" className="text-xl uppercase">
-                        Payment Type
-                    </label>
-                    <Select>
-                        <SelectTrigger className="text-left border-b border-b-red-700 px-3 py-1 outline-none">
-                            <SelectValue placeholder="Select payment type" />
-                        </SelectTrigger>
-                        <SelectContent className="">
-                            <SelectItem value="Card">Card</SelectItem>
-                            <SelectItem value="Cash">Cash</SelectItem>
-                        </SelectContent>
-                    </Select>
-                    <span className="text-white px-3 w-max rounded-md bg-red-700 mt-2">{state.errors?.paymentType && state.errors.paymentType[0]}</span>
-                </div>
+                <CheckoutSelect error={state.errors?.paymentType && state.errors.paymentType[0]} />
 
                 <CheckoutFormButton />
             </form>

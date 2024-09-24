@@ -45,7 +45,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
                                 </div>
                             ))}
                         </div>
-                        <div className="flex justify-between text-2xl font-bold mt-2 pt-4 border-t border-gray-300">
+                        <div className="flex justify-between text-2xl font-bold mt-2 pt-4 border-t border-gray-400">
                             <p>Total</p>
                             <p>${order.total}</p>
                         </div>

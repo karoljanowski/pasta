@@ -34,7 +34,7 @@ const OrderSchema = z.object({
 });
 
 export const handleNewOrder = async (state: CheckoutFormState, formData: FormData) => {
-    await new Promise(resolve => setTimeout(resolve, 3000));
+
     try {
         const parsedResult = OrderSchema.safeParse({
             cartItems: formData.get('cartItems'),
