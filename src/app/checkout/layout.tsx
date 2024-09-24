@@ -8,7 +8,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className={`${teko.className}`}>
+        <div className={`${teko.className} bg-yellow-50`}>
             {children}
         </div>
     );

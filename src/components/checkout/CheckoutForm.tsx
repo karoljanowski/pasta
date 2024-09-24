@@ -12,7 +12,7 @@ import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 
 const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: number }) => {
-    const initialState: CheckoutFormState = { errors: {}, success: false }
+    const initialState: CheckoutFormState = { success: false }
     const [state, action] = useFormState(handleNewOrder, initialState)
 
     const { clearCart } = useCartStore()
