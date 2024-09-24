@@ -1,16 +1,10 @@
 
 import CheckoutSteps from "@/components/checkout/Steps";
 
-import { Teko } from "next/font/google";
-
-const teko = Teko({ subsets: ["latin"] });
-
 const CheckoutPage = () => {
     return (
-        <div className={`${teko.className}`}>
-            <div className="min-h-screen container mx-auto p-4">
-                <CheckoutSteps />
-            </div>
+        <div className="min-h-screen container mx-auto p-4">
+            <CheckoutSteps />
         </div>
     );
 }
