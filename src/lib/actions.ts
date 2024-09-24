@@ -59,7 +59,7 @@ export const handleNewOrder = async (state: CheckoutFormState, formData: FormDat
                 customerFullname: validatedData.customerFullName,
                 customerCity: validatedData.customerCity,
                 customerStreet: validatedData.customerStreet,
-                status: 'Preparing',
+                status: 'Processing',
                 payment: validatedData.paymentType,
                 time: new Date(),
                 total: validatedData.totalPrice,
