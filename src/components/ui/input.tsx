@@ -11,9 +11,11 @@ const inputVariants = cva(
         checkout: "bg-transparent border-b-red-700 border-b outline-none py-2 text-lg focus:border-b-red-950 transition-all placeholder:text-gray-300",
       },
     },
+    defaultVariants: {
+      variant: "default",
+    },
   }
 )
-
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement>,
   VariantProps<typeof inputVariants> { }

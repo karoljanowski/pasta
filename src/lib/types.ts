@@ -78,3 +78,22 @@ export type BestProductsFormState = {
     success: boolean,
     errors?: string[] | undefined;
 }
+
+export type LoginFormState = {
+    success: boolean,
+    cretentailsError?: string | undefined,
+    errors?: {
+        username?: string[] | undefined
+        password?: string[] | undefined
+    }
+}
+
+export type ChangePasswordFormState = {
+    success: boolean,
+    error?: string | undefined,
+    errors?: {
+        oldPassword?: string[] | undefined
+        newPassword?: string[] | undefined
+        confirmPassword?: string[] | undefined
+    }
+}

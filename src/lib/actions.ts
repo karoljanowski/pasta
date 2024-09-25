@@ -4,8 +4,6 @@ import { prisma } from "./prisma"
 import { BestProductsFormState, CartItem, CheckoutFormState, DeliveryTimeFormState, ImageUploadFormState, OrderStatusProps, ProductFormState } from "./types"  
 import { z } from 'zod';
 import { revalidatePath } from "next/cache"
-import { Product } from "@prisma/client";
-import { readdirSync, unlinkSync, writeFileSync } from "fs";
 import { list, put, del, head } from '@vercel/blob';
 
 const CartItemSchema = z.object({

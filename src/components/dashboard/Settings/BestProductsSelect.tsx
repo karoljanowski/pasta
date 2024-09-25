@@ -1,11 +1,11 @@
 'use client'
 import { Product } from "@prisma/client";
 import { Checkbox } from "@/components/ui/checkbox";
-import BestProductsButton from "./BestProductsButton";
 import { setBestProducts } from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
+import FormButton from "@/components/FormButton";
 
 const BestProductsSelect = ({ products }: { products: Product[] }) => {
     const [state, action] = useFormState(setBestProducts, { success: false })
@@ -30,7 +30,7 @@ const BestProductsSelect = ({ products }: { products: Product[] }) => {
                     )
                 })}
             </div>
-            <BestProductsButton />
+            <FormButton text="Save" />
         </form>
     );
 }

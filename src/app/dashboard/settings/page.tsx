@@ -1,4 +1,5 @@
 import BestProducts from "@/components/dashboard/Settings/BestProducts";
+import ChangePassword from "@/components/dashboard/Settings/ChangePassword";
 import DeliveryTime from "@/components/dashboard/Settings/DeliveryTime";
 
 const Page = () => {
@@ -9,6 +10,7 @@ const Page = () => {
 
             <DeliveryTime />
             <BestProducts />
+            <ChangePassword />
         </>
     );
 }

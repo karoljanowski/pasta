@@ -1,13 +1,10 @@
 'use client'
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Truck } from "lucide-react";
-import { getDeliveryTime } from "@/lib/actions";
 import { useFormState } from "react-dom";
 import { setDeliveryTime } from "@/lib/actions";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import DeliveryTimeButton from "./DeliveryTimeButton";
+import FormButton from "@/components/FormButton";
 
 const DeliveryTimeForm = ({ initialTime }: { initialTime: number | undefined }) => {
     const [state, action] = useFormState(setDeliveryTime, { success: false })
@@ -27,7 +24,7 @@ const DeliveryTimeForm = ({ initialTime }: { initialTime: number | undefined }) 
                 <Input defaultValue={initialTime} type="number" name="time" placeholder="120 minutes" />
                 {state.error?.time && <span className="text-red-500 ml-1 text-sm">{state.error.time[0]}</span>}
             </div>
-            <DeliveryTimeButton />
+            <FormButton text="Save" />
         </form>
     );
 }
