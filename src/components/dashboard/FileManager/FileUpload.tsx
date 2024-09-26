@@ -8,6 +8,7 @@ import { useFormState } from "react-dom"
 import FileUploadFormButton from "./FileUploadFormButton"
 import { Image } from "lucide-react"
 import toast from 'react-hot-toast'
+import FormButton from '@/components/FormButton'
 
 const FileUpload = () => {
     const [state, action] = useFormState(addFile, { success: false })
@@ -45,7 +46,7 @@ const FileUpload = () => {
                     </label>
                     <input type="file" name="file" id="file" className="hidden" onChange={handleFileChange} />
                     {state.error && <p className="text-red-500">{state.error}</p>}
-                    <FileUploadFormButton />
+                    <FormButton text='Upload file' />
                 </form>
             </DialogContent>
         </Dialog>

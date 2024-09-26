@@ -9,8 +9,8 @@ import EditIngredients from "./EditIngredients";
 import EditImage from "./EditImage";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import ProductFormButton from "./ProductFormButton";
 import { HeadBlobResult } from "@vercel/blob";
+import FormButton from "@/components/FormButton";
 
 interface ProductFormProps {
     product?: Product;
@@ -44,7 +44,7 @@ const ProductEdit = ({ product, mode, image }: ProductFormProps) => {
                 <Textarea className="h-24 my-3 resize-none" defaultValue={product?.description} name="description" placeholder="Product description" />
                 <EditIngredients ingredientsInitial={product?.ingredients} />
 
-                <ProductFormButton />
+                <FormButton text="Save" />
             </form>
         </div>
     );

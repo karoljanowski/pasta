@@ -1,7 +1,7 @@
 'use client';
-import { ShoppingCart, X } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/lib/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import CartItems from "./CartItems";
 import Link from "next/link";
 import { HoverCard, HoverCardTrigger, HoverCardContent } from "../ui/hover-card";

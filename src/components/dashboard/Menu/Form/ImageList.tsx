@@ -3,7 +3,6 @@ import { getFiles } from "@/lib/actions";
 import { useEffect, useState } from "react";
 import { ListBlobResultBlob } from "@vercel/blob";
 import Image from "next/image";
-import { DialogClose } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 
 const ImageList = ({ setImage, setOpen }: { setImage: (image: ListBlobResultBlob) => void, setOpen: (open: boolean) => void }) => {

@@ -24,7 +24,6 @@ const FileDeleteButton = ({ image }: { image: string }) => {
 
     }
 
-
     return (
         <>
             {loading ? (

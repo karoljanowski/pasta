@@ -1,8 +1,6 @@
 'use client'
 import { pusherClient } from "@/lib/pusher";
-import { Table, TableHeader, TableRow, TableHead, TableCell, TableBody } from "../../ui/table";
 import { useEffect, useRef, useState } from "react";
-import SelectStatus from "./SelectStatus";
 import { OrderWithProducts } from "@/lib/types";
 import { DataTable } from "./DataTable";
 import columns from "./Columns";

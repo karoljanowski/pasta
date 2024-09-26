@@ -2,8 +2,7 @@
 import { Copy } from "lucide-react";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { duplicateProduct } from "@/lib/actions";
-import { Toaster, toast } from "react-hot-toast";
-import { useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const ProductDuplicateButton = ({ id, setLoading }: { id: number, setLoading: (loading: boolean) => void }) => {
 

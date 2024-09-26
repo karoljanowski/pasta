@@ -8,7 +8,7 @@ if (!SECRET_KEY) {
 
 const protectedPathRegex = /^\/dashboard($|\/)/
 
-export async function middleware(request: NextRequest) {
+export const middleware = async (request: NextRequest) => {
     const path = request.nextUrl.pathname
 
     const isProtectedRoute = protectedPathRegex.test(path)

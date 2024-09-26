@@ -2,7 +2,6 @@ import Header from "@/components/Homepage/Header";
 import HeroImage from "@/components/Homepage/HeroImage";
 import { ParalaxContainer } from "@/components/Homepage/ParalaxText";
 import { Button } from "@/components/ui/button";
-import Slider from "@/components/Homepage/Slider";
 import About from "@/components/Homepage/About";
 import { getMenu } from "@/lib/actions";
 import CartModal from "@/components/cart/CartModal";

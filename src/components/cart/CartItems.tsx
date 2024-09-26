@@ -1,7 +1,6 @@
 import { Minus, Plus, Trash } from "lucide-react";
 import { useCartStore } from "@/lib/store";
 import { CartItem } from "@/lib/types";
-import { cn } from "@/lib/utils";
 
 const CartItems = ({ showQuantity = false }: { showQuantity?: boolean }) => {
     const { items, removeItem, addItem, totalPrice } = useCartStore();

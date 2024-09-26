@@ -2,13 +2,13 @@
 import { useFormState } from "react-dom";
 import { handleNewOrder } from "@/lib/actions";
 import { CartItem, CheckoutFormState } from "@/lib/types";
-import CheckoutFormButton from "./CheckoutFormButton";
 import { Input } from "../ui/input";
 import { useCartStore } from "@/lib/store";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 import CheckoutSelect from "./CheckoutSelect";
+import FormButton from "../FormButton";
 
 const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: number }) => {
     const initialState: CheckoutFormState = { success: false }
@@ -72,7 +72,7 @@ const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: nu
                 </div>
                 <CheckoutSelect error={state.errors?.paymentType && state.errors.paymentType[0]} />
 
-                <CheckoutFormButton />
+                <FormButton text="Order with obligation to pay" variant="custom1" size="custom1" />
             </form>
         </div>
     );
