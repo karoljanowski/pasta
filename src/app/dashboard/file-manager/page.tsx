@@ -1,6 +1,4 @@
-import { addFile, getFiles } from "@/lib/actions";
 import FileList from "@/components/dashboard/FileManager/FileList";
-import { Button } from "@/components/ui/button";
 import FileUpload from "@/components/dashboard/FileManager/FileUpload";
 import { Suspense } from "react";
 import { Loader2 } from "lucide-react";

@@ -5,7 +5,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { addFile } from "@/lib/actions"
 import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog"
 import { useFormState } from "react-dom"
-import FileUploadFormButton from "./FileUploadFormButton"
 import { Image } from "lucide-react"
 import toast from 'react-hot-toast'
 import FormButton from '@/components/FormButton'

@@ -5,13 +5,16 @@ import { OrderStatus } from "@prisma/client";
 import { Select, SelectItem, SelectTrigger, SelectValue, SelectContent } from "../../ui/select";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
 
 const SelectStatus = ({ status, id }: OrderStatusProps) => {
     const [selectedStatus, setSelectedStatus] = useState<OrderStatus>(status);
     const statusArray = Object.values(OrderStatus);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = async (newStatus: OrderStatus) => {
         try {
+            setLoading(true);
             const reponse = await handleChangeStatus({ status: newStatus, id });
             if (reponse.success) {
                 toast.success('Status updated');
@@ -21,9 +24,10 @@ const SelectStatus = ({ status, id }: OrderStatusProps) => {
             }
         } catch (error) {
             toast.error('Error');
+        } finally {
+            setLoading(false);
+            setSelectedStatus(newStatus);
         }
-        setSelectedStatus(newStatus);
-        await handleChangeStatus({ status: newStatus, id });
     };
 
     const getStatusColor = (status: OrderStatus) => {
@@ -48,8 +52,8 @@ const SelectStatus = ({ status, id }: OrderStatusProps) => {
             value={selectedStatus}
             onValueChange={(value: OrderStatus) => handleChange(value)}
         >
-            <SelectTrigger className={`w-full ${getStatusColor(selectedStatus)}`}>
-                <SelectValue placeholder={selectedStatus} />
+            <SelectTrigger disabled={loading} className={`w-full ${getStatusColor(selectedStatus)}`}>
+                {loading ? <Loader2 className="animate-spin w-full h-4" /> : selectedStatus}
             </SelectTrigger>
             <SelectContent>
                 {statusArray.map((statusValue) => (
