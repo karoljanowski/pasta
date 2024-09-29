@@ -24,12 +24,6 @@ const CheckoutSteps = () => {
     const isCartStep = step === 'cart'
     const isOrderStep = step === 'order'
 
-    useEffect(() => {
-        if (items.length === 0) {
-            router.push('/checkout?step=cart')
-        }
-    }, [step])
-
     return (
         <div className="container mx-auto mt-6">
             <AnimatePresence mode="wait">
@@ -41,6 +35,10 @@ const CheckoutSteps = () => {
                         exit={{ opacity: 0, x: -100 }}
                         transition={{ duration: 0.3 }}
                     >
+                        <Button variant="custom1" className="text-base shadow-sm mb-6" onClick={() => router.push('menu')}>
+                            <ChevronLeft className="w-3 h-3 mb-px" />
+                            Back to Menu
+                        </Button>
                         <h2 className="text-5xl mb-4">Your Cart</h2>
                         <CartItems showQuantity={true} />
                         <div className="flex mt-6">
@@ -71,7 +69,7 @@ const CheckoutSteps = () => {
                         </Button>
 
                         <h2 className="text-5xl mb-6">Shipping Details</h2>
-                        <CheckoutForm items={items} totalPrice={totalPrice} />
+                        <CheckoutForm />
                     </motion.div>
                 )}
             </AnimatePresence>

@@ -10,11 +10,11 @@ import toast from "react-hot-toast";
 import CheckoutSelect from "./CheckoutSelect";
 import FormButton from "../FormButton";
 
-const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: number }) => {
+const CheckoutForm = () => {
     const initialState: CheckoutFormState = { success: false }
     const [state, action] = useFormState(handleNewOrder, initialState)
 
-    const { clearCart } = useCartStore()
+    const { clearCart, items, totalPrice } = useCartStore()
 
     useEffect(() => {
         if (state.success && state.orderId) {
@@ -71,8 +71,10 @@ const CheckoutForm = ({ items, totalPrice }: { items: CartItem[], totalPrice: nu
                     <span className="text-white px-3 w-max rounded-md bg-red-700 mt-2">{state.errors?.customerStreet && state.errors.customerStreet[0]}</span>
                 </div>
                 <CheckoutSelect error={state.errors?.paymentType && state.errors.paymentType[0]} />
-
-                <FormButton text="Order with obligation to pay" variant="custom1" size="custom1" />
+                <div>
+                    {items.length === 0 && <span className="text-red-700 block text-center text-xl mb-1">Your cart is empty!</span>}
+                    <FormButton disabled={items.length === 0} text="Order with obligation to pay" variant="custom1" size="custom1" className="w-full" />
+                </div>
             </form>
         </div>
     );
