@@ -6,7 +6,7 @@ const MenuList = async () => {
     const menu = await getMenu();
 
     return (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2 pt-4 pb-12 mx-4 bg-yellow-50">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-2 pt-4 pb-12 mx-4 bg-yellow-50">
             {menu.map((item, index) => {
                 return (
                     <div key={index} className="p-4 overflow-hidden rounded-lg flex flex-col items-center bg-white shadow-lg hover:border-red-700 border-transparent border">
