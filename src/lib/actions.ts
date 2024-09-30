@@ -139,6 +139,17 @@ export const getMenu = async () => {
     });
 };
 
+export const getBestMenu = async () => {
+    return await prisma.product.findMany({
+        orderBy: {
+            name: 'asc'
+        },
+        where: {
+            isBest: true
+        }
+    });
+};
+
 export const getProduct = async (id: number) => {
     const product =  await prisma.product.findFirst({
         where: {
