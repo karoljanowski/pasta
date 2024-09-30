@@ -3,7 +3,7 @@ import HeroImage from "@/components/Homepage/HeroImage";
 import { ParalaxContainer } from "@/components/Homepage/ParalaxText";
 import { Button } from "@/components/ui/button";
 import About from "@/components/Homepage/About";
-import { getMenu } from "@/lib/actions";
+import { getBestMenu } from "@/lib/actions";
 import CartModal from "@/components/cart/CartModal";
 import Footer from "@/components/Homepage/Footer";
 import { Teko } from "next/font/google";
@@ -17,7 +17,7 @@ const DynamicSlider = dynamic(
 )
 
 export default async function Home() {
-  const menu = await getMenu()
+  const menu = await getBestMenu()
 
   return (
     <div className={`${teko.className}`}>
