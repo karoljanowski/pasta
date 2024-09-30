@@ -6,8 +6,9 @@ import { Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { HeadBlobResult, ListBlobResultBlob } from "@vercel/blob";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { error } from "console";
 
-const EditImage = ({ initialImage }: { initialImage?: HeadBlobResult }) => {
+const EditImage = ({ initialImage, error }: { initialImage?: HeadBlobResult, error?: string }) => {
     const [image, setImage] = useState<ListBlobResultBlob | HeadBlobResult | undefined>(initialImage ? initialImage : undefined);
     const [open, setOpen] = useState(false);
     return (
@@ -41,6 +42,7 @@ const EditImage = ({ initialImage }: { initialImage?: HeadBlobResult }) => {
                     <ImageList setImage={setImage} setOpen={setOpen} />
                 </DialogContent>
             </Dialog>
+            {error && <span className="text-red-700 mt-1 text-sm">{error}</span>}
         </>
 
     );

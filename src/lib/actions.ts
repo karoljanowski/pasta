@@ -230,6 +230,7 @@ export const addProduct = async (state: ProductFormState, formData: FormData) =>
             price: formData.get('price'),
             description: formData.get('description'),
             ingredients: formData.get('ingredients'),
+            image: formData.get('image')
         });
 
         if (!parsedResult.success) {
@@ -248,7 +249,7 @@ export const addProduct = async (state: ProductFormState, formData: FormData) =>
                 description: validatedData.description,
                 ingredients: validatedData.ingredients,
                 active: true,
-                image: ''
+                image: validatedData.image
             }
         });
 
