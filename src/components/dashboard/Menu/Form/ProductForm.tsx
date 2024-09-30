@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 import { HeadBlobResult } from "@vercel/blob";
 import FormButton from "@/components/FormButton";
-import { error } from "console";
 
 interface ProductFormProps {
     product?: Product;

@@ -14,7 +14,7 @@ const MenuList = async () => {
     const menu = await getMenu()
     return (
         <div className="mt-6">
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-4">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4">
                 {menu.map(item => {
                     return (
                         <Card key={item.id} className={`${item.active ? 'opacity-100 bg-gray-100' : 'opacity-30 bg-gray-300'} transition-all  flex flex-col h-full`}>

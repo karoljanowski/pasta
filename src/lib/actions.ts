@@ -217,6 +217,7 @@ export const editProduct = async (state: ProductFormState, formData: FormData) =
 
         revalidatePath('/dashboard/menu')
         revalidatePath('/')
+        revalidatePath('/dashboard/settings')
         return { success: true }
     }catch (error) {
         return {success: false}
@@ -254,6 +255,8 @@ export const addProduct = async (state: ProductFormState, formData: FormData) =>
         });
 
         revalidatePath('/dashboard/menu')
+        revalidatePath('/')
+        revalidatePath('/dashboard/settings')
         return { success: true }
     }catch (error) {
         return {success: false}
