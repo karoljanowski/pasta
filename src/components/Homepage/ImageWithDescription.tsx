@@ -1,6 +1,8 @@
 'use client';
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 const ImageWithDescription = ({ heading, text, image, reverse }: { heading: string, text: string, image: string, reverse: boolean }) => {
     return (
@@ -16,7 +18,9 @@ const ImageWithDescription = ({ heading, text, image, reverse }: { heading: stri
             >
                 <h3 className="text-3xl font-bold mb-4">{heading}</h3>
                 <p className="text-lg">{text}</p>
-                <button className="hover:bg-red-900 hover:text-white transition-all bg-white text-black px-10 py-1 text-2xl mt-2 border-black border rounded-lg shadow-md shadow-gray-800">Go to menu</button>
+                <Link href={`/menu`}>
+                    <Button variant="custom2" size="custom2" className="mt-4">Go to menu</Button>
+                </Link>
             </motion.div>
             <motion.div
                 className="w-full md:w-1/2 rounded-xl overflow-hidden shadow-lg"

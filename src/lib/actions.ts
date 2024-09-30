@@ -157,8 +157,12 @@ export const getProduct = async (id: number) => {
         }
     });
     if(product){
-        const image = await head(product.image)
-        return {product: product, image: image}
+        try {
+            const image = await head(product.image)
+            return {product: product, image: image}
+        } catch (error) {
+            return {product: product, image: null}
+        }
     }
 }
 

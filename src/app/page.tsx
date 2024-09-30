@@ -8,6 +8,7 @@ import CartModal from "@/components/cart/CartModal";
 import Footer from "@/components/Homepage/Footer";
 import { Teko } from "next/font/google";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const teko = Teko({ subsets: ["latin"] });
 
@@ -27,7 +28,7 @@ export default async function Home() {
           <ParalaxContainer baseVelocity={6} text="pizza & pasta" />
           <HeroImage />
           <div className="mx-4 flex justify-center gap-4">
-            <Button variant="custom1" size="custom1" className="text-3xl py-7">Order</Button>
+            <Link href="/menu"><Button variant="custom1" size="custom1" className="text-3xl py-7">Order</Button></Link>
           </div>
         </div>
         <DynamicSlider menu={menu} />

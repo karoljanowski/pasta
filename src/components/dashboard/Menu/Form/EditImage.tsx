@@ -6,7 +6,6 @@ import { Image as ImageIcon } from "lucide-react";
 import { useState } from "react";
 import { HeadBlobResult, ListBlobResultBlob } from "@vercel/blob";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { error } from "console";
 
 const EditImage = ({ initialImage, error }: { initialImage?: HeadBlobResult, error?: string }) => {
     const [image, setImage] = useState<ListBlobResultBlob | HeadBlobResult | undefined>(initialImage ? initialImage : undefined);
