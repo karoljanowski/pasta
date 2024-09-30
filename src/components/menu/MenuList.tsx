@@ -12,7 +12,7 @@ const MenuList = async () => {
                     <div key={index} className="p-4 overflow-hidden rounded-lg flex flex-col items-center bg-white shadow-lg hover:border-red-700 border-transparent border">
                         <Image src={item.image} alt={item.name} width={120} height={120} />
                         <h2 className="text-xl font-bold text-black mt-4 text-center">{item.name}</h2>
-                        <p className="text-gray-700 mt-2 text-center word-break-words">{item.ingredients}</p>
+                        <p className="text-gray-700 mt-2 text-center word-break-words">{item.ingredients.join(", ")}</p>
                         <div className="flex items-center justify-between w-full mt-auto pt-2">
                             <p className="text-2xl font-semibold text-red-700">${item.price}</p>
                             <MenuButtons item={item} />
