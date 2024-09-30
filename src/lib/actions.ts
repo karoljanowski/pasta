@@ -255,6 +255,7 @@ export const addProduct = async (state: ProductFormState, formData: FormData) =>
         });
 
         revalidatePath('/dashboard/menu')
+        revalidatePath('/menu')
         revalidatePath('/')
         revalidatePath('/dashboard/settings')
         return { success: true }
