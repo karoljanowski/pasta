@@ -30,7 +30,7 @@ const ProductEdit = ({ product, mode, image }: ProductFormProps) => {
             toast.error('Check product form');
         }
 
-    }, [state]);
+    }, [state, mode]);
 
     return (
         <div className="mt-5">

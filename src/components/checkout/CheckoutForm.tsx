@@ -24,7 +24,7 @@ const CheckoutForm = () => {
         } else if (!state.success && state.errors) {
             toast.error('Check order form')
         }
-    }, [state])
+    }, [state, clearCart])
 
     return (
         <div>

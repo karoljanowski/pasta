@@ -20,7 +20,7 @@ const LoginPage = () => {
         } else if (state.cretentailsError) {
             toast.error(state.cretentailsError)
         }
-    }, [state])
+    }, [state, router])
 
     return (
         <>
@@ -36,14 +36,14 @@ const LoginPage = () => {
                                     <label htmlFor="username" className="font-medium text-sm text-gray-600">
                                         Username
                                     </label>
-                                    <Input type="text" id="username" name="username" placeholder='example@example.com' className='min-w-80 mt-1' />
+                                    <Input type="text" id="username" name="username" placeholder='example@example.com' defaultValue="admin" className='min-w-80 mt-1' />
                                     {state.errors?.username && <p className='text-red-500 text-sm'>{state.errors.password}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="font-medium text-sm text-gray-600">
                                         Password
                                     </label>
-                                    <Input type="password" id="password" name="password" placeholder='*******' className='min-w-80 mt-1' />
+                                    <Input type="password" id="password" name="password" placeholder='*******' defaultValue="Test123!@#" className='min-w-80 mt-1' />
                                     {state.errors?.password && <p className='text-red-500 text-sm'>{state.errors.password}</p>}
                                 </div>
                                 <FormButton text='Login' className='w-full' />

@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { addFile } from "@/lib/actions"
 import { DialogDescription, DialogTrigger } from "@radix-ui/react-dialog"
 import { useFormState } from "react-dom"
-import { Image } from "lucide-react"
+import { ImageIcon } from "lucide-react"
 import toast from 'react-hot-toast'
 import FormButton from '@/components/FormButton'
 
@@ -42,7 +42,7 @@ const FileUpload = () => {
 
                 <form action={action} className="flex flex-col">
                     <label htmlFor="file" className="w-full py-2 px-4 bg-gray-100 flex justify-center flex-col items-center cursor-pointer">
-                        <Image className="w-6 h-6" />
+                        <ImageIcon className="w-6 h-6" />
                         {fileName}
                     </label>
                     <input type="file" name="file" id="file" className="hidden" onChange={handleFileChange} />

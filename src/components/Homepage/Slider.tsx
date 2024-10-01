@@ -82,7 +82,7 @@ const Slider = ({ menu }: { menu: Product[] }) => {
 
     useEffect(() => {
         if (inView) handleAnimation(activeIndex + 1);
-    }, [inView, activeIndex]);
+    }, [inView, activeIndex, handleAnimation]);
 
     return (
         <div className="mt-16 pt-16 text-white flex flex-col items-center bg-red-700">
