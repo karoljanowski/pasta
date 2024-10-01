@@ -161,7 +161,7 @@ export const getProduct = async (id: number) => {
             const image = await head(product.image)
             return {product: product, image: image}
         } catch (error) {
-            return {product: product, image: null}
+            return {product: product, image: undefined}
         }
     }
 }
